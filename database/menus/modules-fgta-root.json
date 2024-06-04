@@ -1,0 +1,45 @@
+{
+	"title" : "ROOT",
+	"icon" : "icon-admin-white.png",
+	"modules" : [
+		{
+			"title" : "Auth",
+			"modules" : [
+				"fgta/framework/fggroup",
+				"fgta/framework/fguser",
+				"fgta/framework/fgrole",
+				"fgta/framework/fgpermission"
+			]
+		},
+		{
+			"title" : "HRMS",
+			"modules" : [
+				{
+					"title" : "Master",
+					"modules" : [
+						"hrms/master/division",
+						"hrms/master/empl",
+						"hrms/master/offertime",
+						"hrms/master/activity",
+						"hrms/master/paidleave"	
+					]
+				},
+				
+				"hrms/transaction/offertime",
+				"hrms/transaction/claim"
+			]
+		},
+		{
+			"title" : "Master",
+			"modules": [
+				{
+					"title": "Global",
+					"modules": [
+						"global/setup/docapprv",
+						"global/general/period"
+					]
+				}
+			]
+		}
+	]
+}

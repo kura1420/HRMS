@@ -1,0 +1,12 @@
+{
+	"title": "HOME",
+	"modules": [
+		{
+			"title" : "HRMS",
+			"modules" : [
+				"hrms/transaction/offertime",
+				"hrms/transaction/claim"
+			]
+		}
+	]
+}

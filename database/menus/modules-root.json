@@ -1,0 +1,8 @@
+{
+	"title": "home",
+	"modules": [
+		"fgta/framework/fggroup",
+		"fgta/framework/fguser",
+		"fgta/framework/fgrole"
+	]
+}
