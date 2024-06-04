@@ -1,0 +1,14 @@
+<?php require_once dirname(__FILE__).'/offertime-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/offertime-edit.phtml' ?>
+<?php require_once dirname(__FILE__).'/offertime-offertimedtgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/offertime-offertimedtform.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/offertime-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>

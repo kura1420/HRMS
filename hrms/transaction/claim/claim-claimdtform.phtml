@@ -1,0 +1,96 @@
+<div id="pnl_editclaimdtform">
+	<div class="fgta-page-title" style="display: flex; align-items: center ">
+		<div id="pnl_editclaimdtform-caption">{{STATE_BEG}}Date & Descr{{STATE_END}}</div>
+		<a id="pnl_editclaimdtform-btn_edit" href="javascript:void(0)" class="easyui-linkbutton fgta-button-edit" style="margin-left:10px;" data-options="plain:true,iconCls:'fgta-icon-edit'">edit</a>
+	</div>
+	<div id="pnl_editclaimdtform-title" class="fgta-page-subtitle">XXXXXXX</div>
+
+
+	<form id="pnl_editclaimdtform-form">
+
+		<div class="form_row pnl_editclaimdtform_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">ID</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editclaimdtform-txt_claimdt_id" class="easyui-textbox" mapping="claimdt_id"  maxlength="36"  style="width: 400px" data-options="multiline:false  ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_editclaimdtform_row" style="display: none">
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Claim ID</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editclaimdtform-txt_claim_id" class="easyui-textbox" mapping="claim_id"  maxlength="36"  style="width: 400px" data-options="multiline:false  , disabled: true">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_editclaimdtform_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Date</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editclaimdtform-dt_claimdt_dt" class="easyui-datebox" style="width: 400px" mapping="claimdt_dt" data-options="editable:false , required: true, invalidMessage: 'Date required'">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+
+		<div class="form_row pnl_editclaimdtform_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Attachment</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editclaimdtform-fl_claimdt_file" class="easyui-filebox" mapping="claimdt_file" style="width: 400px" data-options="multiline: false , required: false, invalidMessage: 'Attachment reqired' ">
+				<div style="display: flex;">
+					<a class="filedownloadlink" id="pnl_editclaimdtform-fl_claimdt_file_link" style="cursor:pointer; margin-right: 10px; display: none">Download File</a>	
+					<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+				</div>
+				<img id="pnl_editclaimdtform-fl_claimdt_file_img" style="width: 200px; width: 200px; border: 1px solid: #ccc; display:none">				
+			</div>
+		</div>
+
+		<div class="form_row pnl_editclaimdtform_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Descr</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editclaimdtform-txt_claimdt_descr" class="easyui-textbox" mapping="claimdt_descr"  maxlength="255"  style="width: 400px" data-options="multiline:false  ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+	</form>
+
+
+	<div class="form_row" style="margin-top: 30px">
+		<div class="form_label_col"></div>
+		<div class="form_input_col" style="border: 0px solid black">
+			<div style="margin-bottom: 10px">
+				<input id="pnl_editclaimdtform-autoadd" type="checkbox"><label for="pnl_editclaimdtform-autoadd">Otomatis tambah baru setelah berhasil disimpan</label>
+			</div>
+			<div>
+				<a id="pnl_editclaimdtform-btn_save" class="easyui-linkbutton c1 fgta-button-save" style="width: 100px">Simpan</a>
+			</div>
+		</div>
+	</div>	
+
+
+	<?php
+	$custombuttonbar = __DIR__.'/claim-claimdtform-custombuttonbar.phtml';
+	if (is_file($custombuttonbar)) {
+		include $custombuttonbar;
+	} else { ?>
+	<div id="pnl_editclaimdtform-buttonbar" style="margin-top: 30px; margin-left:-5px; margin-right: -5px; background-color: #cccccc; height: 40px; display: flex; justify-content: space-between; padding: 5px 2px 2px 2px ">
+		<div id="pnl_editclaimdtform-buttonbar-left">
+			<a id="pnl_editclaimdtform-btn_prev" class="easyui-linkbutton c8 fgta-button-detilprev" style="width: 50px">Prev</a>
+			<a id="pnl_editclaimdtform-btn_next" class="easyui-linkbutton c8 fgta-button-detilnext" style="width: 50px">Next</a>
+		</div>
+
+		<div id="pnl_editclaimdtform-buttonbar-middle">
+			<a id="pnl_editclaimdtform-btn_addnew" class="easyui-linkbutton c8 fgta-button-detiladd" style="width: 100px">Tambah Baru</a>
+		</div>
+
+		<div id="pnl_editclaimdtform-buttonbar-right">
+			<a id="pnl_editclaimdtform-btn_delete" class="easyui-linkbutton c5" style="width: 100px">Hapus</a>
+		</div>
+	</div>
+	<?php } ?>
+
+
+
+
+</div>	

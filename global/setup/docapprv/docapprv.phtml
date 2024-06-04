@@ -1,0 +1,14 @@
+<?php require_once dirname(__FILE__).'/docapprv-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/docapprv-edit.phtml' ?>
+<?php require_once dirname(__FILE__).'/docapprv-docapprvlevlgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/docapprv-docapprvlevlform.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/docapprv-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>
