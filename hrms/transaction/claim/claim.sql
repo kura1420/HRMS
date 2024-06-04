@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `trn_claim` (
 	`activity_id` varchar(36) NOT NULL , 
 	`claim_descr` varchar(255)  , 
 	`empl_id` varchar(36) NOT NULL , 
+	`claim_total` int(11) NOT NULL DEFAULT 0, 
 	`docapprv_id` varchar(36) NOT NULL , 
 	`claim_rejectnotes` varchar(255)  , 
 	`claim_isrequest` tinyint(1) NOT NULL DEFAULT 0, 
@@ -36,7 +37,8 @@ ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_code` varchar(50) NOT N
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `activity_id` varchar(36) NOT NULL  AFTER `claim_code`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_descr` varchar(255)   AFTER `activity_id`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `empl_id` varchar(36) NOT NULL  AFTER `claim_descr`;
-ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `docapprv_id` varchar(36) NOT NULL  AFTER `empl_id`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_total` int(11) NOT NULL DEFAULT 0 AFTER `empl_id`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `docapprv_id` varchar(36) NOT NULL  AFTER `claim_total`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_rejectnotes` varchar(255)   AFTER `docapprv_id`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_isrequest` tinyint(1) NOT NULL DEFAULT 0 AFTER `claim_rejectnotes`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_requestby` varchar(14)   AFTER `claim_isrequest`;
@@ -53,7 +55,8 @@ ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_code` varchar(50) NOT NU
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `activity_id` varchar(36) NOT NULL   AFTER `claim_code`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_descr` varchar(255)    AFTER `activity_id`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `empl_id` varchar(36) NOT NULL   AFTER `claim_descr`;
-ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `docapprv_id` varchar(36) NOT NULL   AFTER `empl_id`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_total` int(11) NOT NULL DEFAULT 0  AFTER `empl_id`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `docapprv_id` varchar(36) NOT NULL   AFTER `claim_total`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_rejectnotes` varchar(255)    AFTER `docapprv_id`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_isrequest` tinyint(1) NOT NULL DEFAULT 0  AFTER `claim_rejectnotes`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_requestby` varchar(14)    AFTER `claim_isrequest`;
@@ -83,6 +86,7 @@ ALTER TABLE `trn_claim` ADD CONSTRAINT `fk_trn_claim_mst_docapprv` FOREIGN KEY I
 CREATE TABLE IF NOT EXISTS `trn_claimdt` (
 	`claimdt_id` varchar(36) NOT NULL , 
 	`claim_id` varchar(36) NOT NULL , 
+	`claimdt_val` int(11) NOT NULL , 
 	`claimdt_dt` date NOT NULL , 
 	`claimdt_file` varchar(255) NOT NULL , 
 	`claimdt_descr` varchar(255)  , 
@@ -97,13 +101,15 @@ COMMENT='Claim Date';
 
 
 ALTER TABLE `trn_claimdt` ADD COLUMN IF NOT EXISTS  `claim_id` varchar(36) NOT NULL  AFTER `claimdt_id`;
-ALTER TABLE `trn_claimdt` ADD COLUMN IF NOT EXISTS  `claimdt_dt` date NOT NULL  AFTER `claim_id`;
+ALTER TABLE `trn_claimdt` ADD COLUMN IF NOT EXISTS  `claimdt_val` int(11) NOT NULL  AFTER `claim_id`;
+ALTER TABLE `trn_claimdt` ADD COLUMN IF NOT EXISTS  `claimdt_dt` date NOT NULL  AFTER `claimdt_val`;
 ALTER TABLE `trn_claimdt` ADD COLUMN IF NOT EXISTS  `claimdt_file` varchar(255) NOT NULL  AFTER `claimdt_dt`;
 ALTER TABLE `trn_claimdt` ADD COLUMN IF NOT EXISTS  `claimdt_descr` varchar(255)   AFTER `claimdt_file`;
 
 
 ALTER TABLE `trn_claimdt` MODIFY COLUMN IF EXISTS  `claim_id` varchar(36) NOT NULL   AFTER `claimdt_id`;
-ALTER TABLE `trn_claimdt` MODIFY COLUMN IF EXISTS  `claimdt_dt` date NOT NULL   AFTER `claim_id`;
+ALTER TABLE `trn_claimdt` MODIFY COLUMN IF EXISTS  `claimdt_val` int(11) NOT NULL   AFTER `claim_id`;
+ALTER TABLE `trn_claimdt` MODIFY COLUMN IF EXISTS  `claimdt_dt` date NOT NULL   AFTER `claimdt_val`;
 ALTER TABLE `trn_claimdt` MODIFY COLUMN IF EXISTS  `claimdt_file` varchar(255) NOT NULL   AFTER `claimdt_dt`;
 ALTER TABLE `trn_claimdt` MODIFY COLUMN IF EXISTS  `claimdt_descr` varchar(255)    AFTER `claimdt_file`;
 

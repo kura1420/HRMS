@@ -23,6 +23,7 @@ const obj = {
 	cbo_activity_id: $('#pnl_edit-cbo_activity_id'),
 	txt_claim_descr: $('#pnl_edit-txt_claim_descr'),
 	cbo_empl_id: $('#pnl_edit-cbo_empl_id'),
+	txt_claim_total: $('#pnl_edit-txt_claim_total'),
 	cbo_docapprv_id: $('#pnl_edit-cbo_docapprv_id'),
 	txt_claim_rejectnotes: $('#pnl_edit-txt_claim_rejectnotes'),
 	chk_claim_isrequest: $('#pnl_edit-chk_claim_isrequest'),
@@ -367,6 +368,7 @@ export function createnew() {
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
+		data.claim_total = 0
 		data.claim_isrequest = '0'
 		data.claim_isapproved = '0'
 		data.claim_isdeclined = '0'

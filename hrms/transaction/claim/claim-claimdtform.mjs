@@ -24,6 +24,7 @@ const pnl_form = $('#pnl_editclaimdtform-form')
 const obj = {
 	txt_claimdt_id: $('#pnl_editclaimdtform-txt_claimdt_id'),
 	txt_claim_id: $('#pnl_editclaimdtform-txt_claim_id'),
+	txt_claimdt_val: $('#pnl_editclaimdtform-txt_claimdt_val'),
 	dt_claimdt_dt: $('#pnl_editclaimdtform-dt_claimdt_dt'),
 	fl_claimdt_file: $('#pnl_editclaimdtform-fl_claimdt_file'),
 	txt_claimdt_descr: $('#pnl_editclaimdtform-txt_claimdt_descr')
@@ -316,6 +317,7 @@ export function createnew(hdata) {
 		data.claim_id = hdata.claim_id
 		data.claimdt_value = 0
 
+		data.claimdt_val = 0
 		data.claimdt_dt = global.now()
 
 

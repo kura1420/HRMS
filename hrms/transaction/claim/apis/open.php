@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 01/06/2024
+ * tanggal 04/06/2024
  */
 $API = new class extends claimBase {
 	
@@ -92,9 +92,10 @@ $API = new class extends claimBase {
 
 			$sqlFieldList = [
 				'claim_id' => 'A.`claim_id`', 'claim_code' => 'A.`claim_code`', 'activity_id' => 'A.`activity_id`', 'claim_descr' => 'A.`claim_descr`',
-				'empl_id' => 'A.`empl_id`', 'docapprv_id' => 'A.`docapprv_id`', 'claim_rejectnotes' => 'A.`claim_rejectnotes`', 'claim_isrequest' => 'A.`claim_isrequest`',
-				'claim_requestby' => 'A.`claim_requestby`', 'claim_requestdate' => 'A.`claim_requestdate`', 'claim_isapproved' => 'A.`claim_isapproved`', 'claim_approveby' => 'A.`claim_approveby`',
-				'claim_approvedate' => 'A.`claim_approvedate`', 'claim_isdeclined' => 'A.`claim_isdeclined`', 'claim_declineby' => 'A.`claim_declineby`', 'claim_declinedate' => 'A.`claim_declinedate`',
+				'empl_id' => 'A.`empl_id`', 'claim_total' => 'A.`claim_total`', 'docapprv_id' => 'A.`docapprv_id`', 'claim_rejectnotes' => 'A.`claim_rejectnotes`',
+				'claim_isrequest' => 'A.`claim_isrequest`', 'claim_requestby' => 'A.`claim_requestby`', 'claim_requestdate' => 'A.`claim_requestdate`', 'claim_isapproved' => 'A.`claim_isapproved`',
+				'claim_approveby' => 'A.`claim_approveby`', 'claim_approvedate' => 'A.`claim_approvedate`', 'claim_isdeclined' => 'A.`claim_isdeclined`', 'claim_declineby' => 'A.`claim_declineby`',
+				'claim_declinedate' => 'A.`claim_declinedate`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "trn_claim A";

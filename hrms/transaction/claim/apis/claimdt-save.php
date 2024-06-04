@@ -33,7 +33,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 01/06/2024
+ * tanggal 04/06/2024
  */
 $API = new class extends claimBase {
 	
@@ -67,8 +67,8 @@ $API = new class extends claimBase {
 			
 			// data yang akan di update dari table
 			$sqlUpdateField  = [
-					'claimdt_id', 'claim_id', 'claimdt_dt', 'claimdt_file',
-					'claimdt_descr'
+					'claimdt_id', 'claim_id', 'claimdt_val', 'claimdt_dt',
+					'claimdt_file', 'claimdt_descr'
 			];
 			if (method_exists(get_class($hnd), 'setUpdateField')) {
 				// setUpdateField(&$sqlUpdateField, $data, $options)
@@ -214,8 +214,8 @@ $API = new class extends claimBase {
 				}
 
 				$sqlFieldList = [
-					'claimdt_id' => 'A.`claimdt_id`', 'claim_id' => 'A.`claim_id`', 'claimdt_dt' => 'A.`claimdt_dt`', 'claimdt_file' => 'A.`claimdt_file`',
-					'claimdt_descr' => 'A.`claimdt_descr`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+					'claimdt_id' => 'A.`claimdt_id`', 'claim_id' => 'A.`claim_id`', 'claimdt_val' => 'A.`claimdt_val`', 'claimdt_dt' => 'A.`claimdt_dt`',
+					'claimdt_file' => 'A.`claimdt_file`', 'claimdt_descr' => 'A.`claimdt_descr`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "trn_claimdt A";

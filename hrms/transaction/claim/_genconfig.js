@@ -59,6 +59,8 @@ module.exports = {
 					}),
 				},
 
+				claim_total: {text:'Total', type: dbtype.int(11), null:false, suppresslist:false, default:0, },
+
 				docapprv_id: {
 					text:'Doc. Approval', type: dbtype.varchar(36), null:false, suppresslist: true,
 					options:{required:false,invalidMessage:'Doc. Approval', prompt:'-- PILIH --'},
@@ -100,9 +102,10 @@ module.exports = {
 			data: {
 				claimdt_id: {text:'ID', type: dbtype.varchar(36), null:false, uppercase: false, suppresslist:true, },
 				claim_id: {text:'Claim ID', type: dbtype.varchar(36), null:false, uppercase: false, suppresslist:true, hidden:true, },
+				claimdt_val: {text:'Value', type: dbtype.int(11), null:false, suppresslist:false, options:{required:true,invalidMessage:'Value Claim is require'} },
 				claimdt_dt: {text:'Date', type: dbtype.date, null:false, suppresslist:false, options: {required: true, invalidMessage: 'Date required'} },
 				claimdt_file: { text: "Attachment", type: dbtype.varchar(255), null: false, uppercase: false, suppresslist: true, options: { required: false, invalidMessage: "Attachment reqired" }, comp: comp.Filebox(), },
-				claimdt_descr: {text:'Descr', type: dbtype.varchar(255), null:true, suppresslist:true, },
+				claimdt_descr: {text:'Descr', type: dbtype.varchar(255), null:true, suppresslist:false, },
 			},
 			uniques: {
 			},

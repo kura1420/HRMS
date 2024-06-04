@@ -19,6 +19,7 @@ export function init(ed) {
 	empl_profile = opt.variancedata.employee_profile;
 
 	form.setDisable(obj.txt_claim_code, true);
+	form.setDisable(obj.txt_claim_total, true);
 	
 	btn_request.linkbutton({ onClick: () => { btn_request_click(); } });
 	btn_unrequest.linkbutton({ onClick: () => { btn_unrequest_click(); } });
