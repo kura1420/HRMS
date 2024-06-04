@@ -4,13 +4,13 @@ const dbtype = global.dbtype;
 const comp = global.comp;
 
 module.exports = {
-	title: "Offertime",
+	title: "Overtime",
 	autoid: true,
 
 	persistent: {
 		mst_offertime : {
 			primarykeys: ['offertime_id'],
-			comment: 'Master Offertime',
+			comment: 'Master Overtime',
 			data: {
 				offertime_id: {text:'ID', type: dbtype.varchar(36), null:false, uppercase: false, suppresslist:true, },
 				offertime_name: {text:'Name', type: dbtype.varchar(255), null:false, uppercase: false, options:{required:true,invalidMessage:'Name required'}},
@@ -26,7 +26,7 @@ module.exports = {
 	},
 
 	schema: {
-		title: 'Offertime',
+		title: 'Overtime',
 		header: 'mst_offertime',
 		detils: {
 		}

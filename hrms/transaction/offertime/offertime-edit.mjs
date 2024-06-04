@@ -290,7 +290,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 		/* commit form */
 		form.commit()
-		form.SuspendEvent(false);
+		form.SuspendEvent(false); 
 		updatebuttonstate(record)
 
 

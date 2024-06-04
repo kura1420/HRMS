@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `trn_offertime` (
 	PRIMARY KEY (`offertime_id`)
 ) 
 ENGINE=InnoDB
-COMMENT='Offertime';
+COMMENT='Overtime';
 
 
 ALTER TABLE `trn_offertime` ADD COLUMN IF NOT EXISTS  `offertime_code` varchar(50) NOT NULL  AFTER `offertime_id`;
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `trn_offertimedt` (
 	PRIMARY KEY (`offertimedt_id`)
 ) 
 ENGINE=InnoDB
-COMMENT='Offertime Date';
+COMMENT='Overtime Date';
 
 
 ALTER TABLE `trn_offertimedt` ADD COLUMN IF NOT EXISTS  `offertime_id` varchar(36) NOT NULL  AFTER `offertimedt_id`;

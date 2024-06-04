@@ -4,14 +4,14 @@ const dbtype = global.dbtype;
 const comp = global.comp;
 
 module.exports = {
-	title: "Offertime",
+	title: "Overtime",
 	autoid: true,
 	printing: true,
 
 	persistent: {
 		trn_offertime: {
 			primarykeys: ['offertime_id'],
-			comment: 'Offertime',
+			comment: 'Overtime',
 			data: {
 				offertime_id: {text:'ID', type: dbtype.varchar(36), null:false, uppercase: false, suppresslist:true, },
 				offertime_code: {text:'Code', type: dbtype.varchar(50), null:false, uppercase: true, suppresslist:false, },
@@ -71,10 +71,10 @@ module.exports = {
 
 		trn_offertimedt: {
 			primarykeys: ['offertimedt_id'],
-			comment: 'Offertime Date',
+			comment: 'Overtime Date',
 			data: {
 				offertimedt_id: {text:'ID', type: dbtype.varchar(36), null:false, uppercase: false, suppresslist:true, },
-				offertime_id: {text:'Offertime', type: dbtype.varchar(36), null:false, uppercase: false, suppresslist:true, hidden:true, },
+				offertime_id: {text:'Overtime', type: dbtype.varchar(36), null:false, uppercase: false, suppresslist:true, hidden:true, },
 				offertimedt_dt: {text:'Date', type: dbtype.date, null:false, suppresslist:false, options: {required: true, invalidMessage: 'Date required'} },
 				offertime_id_type: {
 					text:'Type/Day', type: dbtype.varchar(36), null:true, suppresslist: false,
@@ -102,7 +102,7 @@ module.exports = {
 	},
 
 	schema: {
-		title: 'Offertime',
+		title: 'Overtime',
 		header: 'trn_offertime',
 		detils: {
 			offertimedt : {

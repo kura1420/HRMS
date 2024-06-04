@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS `mst_offertime` (
 	PRIMARY KEY (`offertime_id`)
 ) 
 ENGINE=InnoDB
-COMMENT='Master Offertime';
+COMMENT='Master Overtime';
 
 
 ALTER TABLE `mst_offertime` ADD COLUMN IF NOT EXISTS  `offertime_name` varchar(255) NOT NULL  AFTER `offertime_id`;
