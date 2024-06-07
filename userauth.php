@@ -25,11 +25,11 @@ class UserAuth
 		
 	}
 	
-	public function employeeProfile($user_id)
+	public function employeeProfile($id)
 	{
 		$SQL = "SELECT *
 		FROM mst_empl me 
-		WHERE me.user_id = '{$user_id}'";
+		WHERE me.user_id = '{$id}' OR me.empl_id = '{$id}'";
 
 		$stmt = $this->db->prepare($SQL);
 		$stmt->execute();
@@ -66,16 +66,27 @@ class UserAuth
 		return $permissions;
 	}
 
-	public function docAuth($userdata, $obj): void
+	public function docAuth($userdata, $emplRequest, $obj)
 	{
-		$sql = "SELECT md.empl_id 
+		$sql = "SELECT md.empl_id, md.docapprvlevl_sortorder 
 		FROM mst_docapprvlevl md 
 		INNER JOIN mst_empl me ON md.empl_id = me.empl_id 
-		WHERE me.user_id = :user_id AND md.docapprv_id = :docapprv_id AND md.docapprvlevl_isdisabled = 0";
+		WHERE 
+			(md.docapprv_id = :docapprv_id AND 
+				md.docapprvlevl_isdisabled = 0 AND 
+				md.docapprvlevl_isequaldept = 0 AND
+				me.user_id = :user_id
+			) OR
+			(md.docapprv_id = :docapprv_id AND 
+				md.docapprvlevl_isdisabled = 0 AND 
+				md.docapprvlevl_isequaldept = 1 AND
+				me.user_id = :user_id AND 
+				me.dept_id = :dept_id)";
 
 		$stmt = $this->db->prepare($sql);
 		$stmt->execute([
 			':user_id' => $userdata->username,
+			':dept_id' => $emplRequest->dept_id,
 			':docapprv_id' => $obj->docapprv_id,
 		]);
 		$docapprvlevl = $stmt->rowCount();
@@ -83,6 +94,8 @@ class UserAuth
 		if ($docapprvlevl == 0) {
 			throw new \Exception("Anda tidak memiliki akses untuk approved dokumen ini");
 		}
+
+		return $stmt->fetch(\PDO::FETCH_OBJ);
 	}
 	
 }

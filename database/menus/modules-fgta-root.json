@@ -17,26 +17,33 @@
 				{
 					"title" : "Master",
 					"modules" : [
+						"hrms/master/dept",
 						"hrms/master/division",
 						"hrms/master/empl",
-						"hrms/master/offertime",
+						"hrms/master/ovrtime",
 						"hrms/master/activity",
 						"hrms/master/paidleave"	
 					]
 				},
 				
-				"hrms/transaction/offertime",
+				"hrms/transaction/ovrtime",
 				"hrms/transaction/claim"
 			]
 		},
 		{
-			"title" : "Master",
+			"title" : "Global",
 			"modules": [
 				{
-					"title": "Global",
+					"title": "General",
 					"modules": [
-						"global/setup/docapprv",
-						"global/general/period"
+						"global/general/period",
+						"global/general/month"
+					]
+				},
+				{
+					"title": "Setup",
+					"modules": [
+						"global/setup/docapprv"
 					]
 				}
 			]

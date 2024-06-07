@@ -1,0 +1,7 @@
+{
+	"title" : "Request",
+	"modules" : [
+		"hrms/transaction/ovrtime",
+		"hrms/transaction/claim"
+	]
+}
