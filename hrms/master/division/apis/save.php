@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 23/05/2024
+ * tanggal 06/06/2024
  */
 $API = new class extends divisionBase {
 	
@@ -175,8 +175,8 @@ $API = new class extends divisionBase {
 				}
 
 				$sqlFieldList = [
-					'division_id' => 'A.`division_id`', 'division_code' => 'A.`division_code`', 'division_name' => 'A.`division_name`', 'division_descr' => 'A.`division_descr`',
-					'division_isdisabled' => 'A.`division_isdisabled`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+					'division_id' => 'A.`division_id`', 'division_code' => 'A.`division_code`', 'division_name' => 'A.`division_name`', 'dept_id' => 'A.`dept_id`',
+					'division_descr' => 'A.`division_descr`', 'division_isdisabled' => 'A.`division_isdisabled`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_division A";
@@ -208,6 +208,7 @@ $API = new class extends divisionBase {
 
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
+					'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 
 					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

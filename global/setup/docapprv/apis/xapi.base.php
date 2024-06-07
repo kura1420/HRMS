@@ -26,7 +26,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 01/06/2024
+ * tanggal 07/06/2024
  */
 class docapprvBase extends WebAPI {
 

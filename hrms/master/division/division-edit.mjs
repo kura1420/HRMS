@@ -1,7 +1,7 @@
 var this_page_id;
 var this_page_options;
 
-
+import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 import * as hnd from  './division-edit-hnd.mjs'
 
 const txt_caption = $('#pnl_edit-caption')
@@ -21,6 +21,7 @@ const obj = {
 	txt_division_id: $('#pnl_edit-txt_division_id'),
 	txt_division_code: $('#pnl_edit-txt_division_code'),
 	txt_division_name: $('#pnl_edit-txt_division_name'),
+	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
 	txt_division_descr: $('#pnl_edit-txt_division_descr'),
 	chk_division_isdisabled: $('#pnl_edit-chk_division_isdisabled')
 }
@@ -71,6 +72,40 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
+	obj.cbo_dept_id.name = 'pnl_edit-cbo_dept_id'		
+	new fgta4slideselect(obj.cbo_dept_id, {
+		title: 'Daftar Departement',
+		returnpage: this_page_id,
+		api: $ui.apis.load_dept_id,
+		fieldValue: 'dept_id',
+		fieldDisplay: 'dept_name',
+		fields: [
+			{mapping: 'dept_id', text: 'ID'},
+			{mapping: 'dept_name', text: 'Name'},
+			{mapping: 'dept_code', text: 'Code'}
+		],
+		OnDataLoading: (criteria, options) => {
+			criteria.dept_isdisabled = 0;
+			if (typeof hnd.cbo_dept_id_dataloading === 'function') {
+				hnd.cbo_dept_id_dataloading(criteria, options);
+			}						
+		},					
+		OnDataLoaded : (result, options) => {
+			
+			if (typeof hnd.cbo_dept_id_dataloaded === 'function') {
+				hnd.cbo_dept_id_dataloaded(result, options);
+			}
+		},
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_dept_id_selected === 'function') {
+					hnd.cbo_dept_id_selected(value, display, record, args);
+				}
+			}
+		},
+
+	})				
+				
 
 
 
@@ -195,6 +230,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
+			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -254,6 +290,8 @@ export function createnew() {
 		// set nilai-nilai default untuk form
 		data.division_isdisabled = '0'
 
+		data.dept_id = '0'
+		data.dept_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,

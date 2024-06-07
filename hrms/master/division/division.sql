@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS `mst_division` (
 	`division_id` varchar(36) NOT NULL , 
 	`division_code` varchar(50) NOT NULL , 
 	`division_name` varchar(255) NOT NULL , 
+	`dept_id` varchar(36) NOT NULL , 
 	`division_descr` varchar(1000)  , 
 	`division_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`_createby` varchar(14) NOT NULL , 
@@ -22,19 +23,23 @@ COMMENT='Master Division';
 
 ALTER TABLE `mst_division` ADD COLUMN IF NOT EXISTS  `division_code` varchar(50) NOT NULL  AFTER `division_id`;
 ALTER TABLE `mst_division` ADD COLUMN IF NOT EXISTS  `division_name` varchar(255) NOT NULL  AFTER `division_code`;
-ALTER TABLE `mst_division` ADD COLUMN IF NOT EXISTS  `division_descr` varchar(1000)   AFTER `division_name`;
+ALTER TABLE `mst_division` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(36) NOT NULL  AFTER `division_name`;
+ALTER TABLE `mst_division` ADD COLUMN IF NOT EXISTS  `division_descr` varchar(1000)   AFTER `dept_id`;
 ALTER TABLE `mst_division` ADD COLUMN IF NOT EXISTS  `division_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `division_descr`;
 
 
 ALTER TABLE `mst_division` MODIFY COLUMN IF EXISTS  `division_code` varchar(50) NOT NULL   AFTER `division_id`;
 ALTER TABLE `mst_division` MODIFY COLUMN IF EXISTS  `division_name` varchar(255) NOT NULL   AFTER `division_code`;
-ALTER TABLE `mst_division` MODIFY COLUMN IF EXISTS  `division_descr` varchar(1000)    AFTER `division_name`;
+ALTER TABLE `mst_division` MODIFY COLUMN IF EXISTS  `dept_id` varchar(36) NOT NULL   AFTER `division_name`;
+ALTER TABLE `mst_division` MODIFY COLUMN IF EXISTS  `division_descr` varchar(1000)    AFTER `dept_id`;
 ALTER TABLE `mst_division` MODIFY COLUMN IF EXISTS  `division_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `division_descr`;
 
 
 ALTER TABLE `mst_division` ADD CONSTRAINT `division_code` UNIQUE IF NOT EXISTS  (`division_code`);
 
+ALTER TABLE `mst_division` ADD KEY IF NOT EXISTS `dept_id` (`dept_id`);
 
+ALTER TABLE `mst_division` ADD CONSTRAINT `fk_mst_division_mst_dept` FOREIGN KEY IF NOT EXISTS  (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
 
 
 

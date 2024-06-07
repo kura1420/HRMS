@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `trn_claim` (
 	`claim_descr` varchar(255)  , 
 	`empl_id` varchar(36) NOT NULL , 
 	`claim_total` int(11) NOT NULL DEFAULT 0, 
+	`month_id` varchar(36) NOT NULL , 
 	`docapprv_id` varchar(36) NOT NULL , 
 	`claim_rejectnotes` varchar(255)  , 
 	`claim_isrequest` tinyint(1) NOT NULL DEFAULT 0, 
@@ -19,9 +20,15 @@ CREATE TABLE IF NOT EXISTS `trn_claim` (
 	`claim_isapproved` tinyint(1) NOT NULL DEFAULT 0, 
 	`claim_approveby` varchar(14)  , 
 	`claim_approvedate` datetime  , 
-	`claim_isdeclined` tinyint(1) NOT NULL DEFAULT 0, 
+	`claim_isapprovalprogress` tinyint(1) NOT NULL DEFAULT 0, 
+	`claim_isdecline` tinyint(1) NOT NULL DEFAULT 0, 
 	`claim_declineby` varchar(14)  , 
 	`claim_declinedate` datetime  , 
+	`claim_ispayment` tinyint(1) NOT NULL DEFAULT 0, 
+	`claim_paymentby` varchar(14)  , 
+	`claim_paymentdate` datetime  , 
+	`claim_executeby` varchar(14)  , 
+	`claim_executedate` datetime  , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
@@ -38,7 +45,8 @@ ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `activity_id` varchar(36) NOT 
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_descr` varchar(255)   AFTER `activity_id`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `empl_id` varchar(36) NOT NULL  AFTER `claim_descr`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_total` int(11) NOT NULL DEFAULT 0 AFTER `empl_id`;
-ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `docapprv_id` varchar(36) NOT NULL  AFTER `claim_total`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `month_id` varchar(36) NOT NULL  AFTER `claim_total`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `docapprv_id` varchar(36) NOT NULL  AFTER `month_id`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_rejectnotes` varchar(255)   AFTER `docapprv_id`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_isrequest` tinyint(1) NOT NULL DEFAULT 0 AFTER `claim_rejectnotes`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_requestby` varchar(14)   AFTER `claim_isrequest`;
@@ -46,9 +54,15 @@ ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_requestdate` datetime  
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_isapproved` tinyint(1) NOT NULL DEFAULT 0 AFTER `claim_requestdate`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_approveby` varchar(14)   AFTER `claim_isapproved`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_approvedate` datetime   AFTER `claim_approveby`;
-ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_isdeclined` tinyint(1) NOT NULL DEFAULT 0 AFTER `claim_approvedate`;
-ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_declineby` varchar(14)   AFTER `claim_isdeclined`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_isapprovalprogress` tinyint(1) NOT NULL DEFAULT 0 AFTER `claim_approvedate`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_isdecline` tinyint(1) NOT NULL DEFAULT 0 AFTER `claim_isapprovalprogress`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_declineby` varchar(14)   AFTER `claim_isdecline`;
 ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_declinedate` datetime   AFTER `claim_declineby`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_ispayment` tinyint(1) NOT NULL DEFAULT 0 AFTER `claim_declinedate`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_paymentby` varchar(14)   AFTER `claim_ispayment`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_paymentdate` datetime   AFTER `claim_paymentby`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_executeby` varchar(14)   AFTER `claim_paymentdate`;
+ALTER TABLE `trn_claim` ADD COLUMN IF NOT EXISTS  `claim_executedate` datetime   AFTER `claim_executeby`;
 
 
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_code` varchar(50) NOT NULL   AFTER `claim_id`;
@@ -56,7 +70,8 @@ ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `activity_id` varchar(36) NOT N
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_descr` varchar(255)    AFTER `activity_id`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `empl_id` varchar(36) NOT NULL   AFTER `claim_descr`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_total` int(11) NOT NULL DEFAULT 0  AFTER `empl_id`;
-ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `docapprv_id` varchar(36) NOT NULL   AFTER `claim_total`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `month_id` varchar(36) NOT NULL   AFTER `claim_total`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `docapprv_id` varchar(36) NOT NULL   AFTER `month_id`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_rejectnotes` varchar(255)    AFTER `docapprv_id`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_isrequest` tinyint(1) NOT NULL DEFAULT 0  AFTER `claim_rejectnotes`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_requestby` varchar(14)    AFTER `claim_isrequest`;
@@ -64,19 +79,27 @@ ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_requestdate` datetime   
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_isapproved` tinyint(1) NOT NULL DEFAULT 0  AFTER `claim_requestdate`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_approveby` varchar(14)    AFTER `claim_isapproved`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_approvedate` datetime    AFTER `claim_approveby`;
-ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_isdeclined` tinyint(1) NOT NULL DEFAULT 0  AFTER `claim_approvedate`;
-ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_declineby` varchar(14)    AFTER `claim_isdeclined`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_isapprovalprogress` tinyint(1) NOT NULL DEFAULT 0  AFTER `claim_approvedate`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_isdecline` tinyint(1) NOT NULL DEFAULT 0  AFTER `claim_isapprovalprogress`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_declineby` varchar(14)    AFTER `claim_isdecline`;
 ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_declinedate` datetime    AFTER `claim_declineby`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_ispayment` tinyint(1) NOT NULL DEFAULT 0  AFTER `claim_declinedate`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_paymentby` varchar(14)    AFTER `claim_ispayment`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_paymentdate` datetime    AFTER `claim_paymentby`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_executeby` varchar(14)    AFTER `claim_paymentdate`;
+ALTER TABLE `trn_claim` MODIFY COLUMN IF EXISTS  `claim_executedate` datetime    AFTER `claim_executeby`;
 
 
 ALTER TABLE `trn_claim` ADD CONSTRAINT `claim_code` UNIQUE IF NOT EXISTS  (`claim_code`);
 
 ALTER TABLE `trn_claim` ADD KEY IF NOT EXISTS `activity_id` (`activity_id`);
 ALTER TABLE `trn_claim` ADD KEY IF NOT EXISTS `empl_id` (`empl_id`);
+ALTER TABLE `trn_claim` ADD KEY IF NOT EXISTS `month_id` (`month_id`);
 ALTER TABLE `trn_claim` ADD KEY IF NOT EXISTS `docapprv_id` (`docapprv_id`);
 
 ALTER TABLE `trn_claim` ADD CONSTRAINT `fk_trn_claim_mst_activity` FOREIGN KEY IF NOT EXISTS  (`activity_id`) REFERENCES `mst_activity` (`activity_id`);
 ALTER TABLE `trn_claim` ADD CONSTRAINT `fk_trn_claim_mst_empl` FOREIGN KEY IF NOT EXISTS  (`empl_id`) REFERENCES `mst_empl` (`empl_id`);
+ALTER TABLE `trn_claim` ADD CONSTRAINT `fk_trn_claim_mst_month` FOREIGN KEY IF NOT EXISTS  (`month_id`) REFERENCES `mst_month` (`month_id`);
 ALTER TABLE `trn_claim` ADD CONSTRAINT `fk_trn_claim_mst_docapprv` FOREIGN KEY IF NOT EXISTS  (`docapprv_id`) REFERENCES `mst_docapprv` (`docapprv_id`);
 
 

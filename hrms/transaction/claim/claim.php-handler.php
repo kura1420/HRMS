@@ -41,10 +41,16 @@ class claim_pageHandler extends WebModule {
 			$canApprove = TRUE;
 		}
 
+		$canPayment = FALSE;
+		if (in_array('PAYMENT', $permissions)) {
+			$canPayment = TRUE;
+		}
+
 		$this->setup->variancedata = [
 			'employee_profile' => $userAuth->employeeProfile($userdata->username),
 			'is_request_myself' => $isRequestMySelf,
 			'can_approve' => $canApprove,
+			'can_payment' => $canPayment,
 		];
 	}
 

@@ -1,0 +1,12 @@
+<?php require_once dirname(__FILE__).'/ovrtime-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/ovrtime-edit.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/ovrtime-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>

@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS `mst_docapprvlevl` (
 	`docapprvlevl_id` varchar(36) NOT NULL , 
 	`docapprvlevl_sortorder` int(4) NOT NULL DEFAULT 0, 
 	`docapprvlevl_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
+	`docapprvlevl_isequaldept` tinyint(1) NOT NULL DEFAULT 1, 
 	`empl_id` varchar(36) NOT NULL , 
 	`docapprv_id` varchar(36) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
@@ -56,13 +57,15 @@ COMMENT='';
 
 ALTER TABLE `mst_docapprvlevl` ADD COLUMN IF NOT EXISTS  `docapprvlevl_sortorder` int(4) NOT NULL DEFAULT 0 AFTER `docapprvlevl_id`;
 ALTER TABLE `mst_docapprvlevl` ADD COLUMN IF NOT EXISTS  `docapprvlevl_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `docapprvlevl_sortorder`;
-ALTER TABLE `mst_docapprvlevl` ADD COLUMN IF NOT EXISTS  `empl_id` varchar(36) NOT NULL  AFTER `docapprvlevl_isdisabled`;
+ALTER TABLE `mst_docapprvlevl` ADD COLUMN IF NOT EXISTS  `docapprvlevl_isequaldept` tinyint(1) NOT NULL DEFAULT 1 AFTER `docapprvlevl_isdisabled`;
+ALTER TABLE `mst_docapprvlevl` ADD COLUMN IF NOT EXISTS  `empl_id` varchar(36) NOT NULL  AFTER `docapprvlevl_isequaldept`;
 ALTER TABLE `mst_docapprvlevl` ADD COLUMN IF NOT EXISTS  `docapprv_id` varchar(36) NOT NULL  AFTER `empl_id`;
 
 
 ALTER TABLE `mst_docapprvlevl` MODIFY COLUMN IF EXISTS  `docapprvlevl_sortorder` int(4) NOT NULL DEFAULT 0  AFTER `docapprvlevl_id`;
 ALTER TABLE `mst_docapprvlevl` MODIFY COLUMN IF EXISTS  `docapprvlevl_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `docapprvlevl_sortorder`;
-ALTER TABLE `mst_docapprvlevl` MODIFY COLUMN IF EXISTS  `empl_id` varchar(36) NOT NULL   AFTER `docapprvlevl_isdisabled`;
+ALTER TABLE `mst_docapprvlevl` MODIFY COLUMN IF EXISTS  `docapprvlevl_isequaldept` tinyint(1) NOT NULL DEFAULT 1  AFTER `docapprvlevl_isdisabled`;
+ALTER TABLE `mst_docapprvlevl` MODIFY COLUMN IF EXISTS  `empl_id` varchar(36) NOT NULL   AFTER `docapprvlevl_isequaldept`;
 ALTER TABLE `mst_docapprvlevl` MODIFY COLUMN IF EXISTS  `docapprv_id` varchar(36) NOT NULL   AFTER `empl_id`;
 
 

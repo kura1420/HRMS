@@ -29,6 +29,7 @@ module.exports = {
 				docapprvlevl_id: {text:'ID', type: dbtype.varchar(36), null:false, uppercase: true, suppresslist:true, },
 				docapprvlevl_sortorder: {text:'SortOrder', type: dbtype.int(4), null:false, default:0},
 				docapprvlevl_isdisabled: {text:'isDisabled', type: dbtype.boolean, null:false, default:0},
+				docapprvlevl_isequaldept: {text:'isEqualDept', type: dbtype.boolean, null:false, default:1, options: {labelWidth:100,}},
 				empl_id: {
 					text:'Employee', type: dbtype.varchar(36), null:false, suppresslist: false,
 					options:{required:false,invalidMessage:'Employee required', prompt:'-- PILIH --'},

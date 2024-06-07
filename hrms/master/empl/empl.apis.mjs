@@ -10,6 +10,7 @@ kemdian, di program bisa diakses dengan
 
 */
 
+export const load_dept_id = 'hrms/master/dept/list'
 export const load_division_id = 'hrms/master/division/list'
 export const load_user_id = 'fgta/framework/fguser/list'
 

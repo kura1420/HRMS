@@ -1,0 +1,91 @@
+<div id="pnl_editovrtimedtform">
+	<div class="fgta-page-title" style="display: flex; align-items: center ">
+		<div id="pnl_editovrtimedtform-caption">{{STATE_BEG}}Date & Descr{{STATE_END}}</div>
+		<a id="pnl_editovrtimedtform-btn_edit" href="javascript:void(0)" class="easyui-linkbutton fgta-button-edit" style="margin-left:10px;" data-options="plain:true,iconCls:'fgta-icon-edit'">edit</a>
+	</div>
+	<div id="pnl_editovrtimedtform-title" class="fgta-page-subtitle">XXXXXXX</div>
+
+
+	<form id="pnl_editovrtimedtform-form">
+
+		<div class="form_row pnl_editovrtimedtform_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">ID</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editovrtimedtform-txt_ovrtimedt_id" class="easyui-textbox" mapping="ovrtimedt_id"  maxlength="36"  style="width: 400px" data-options="multiline:false  ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_editovrtimedtform_row" style="display: none">
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Overtime</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editovrtimedtform-txt_ovrtime_id" class="easyui-textbox" mapping="ovrtime_id"  maxlength="36"  style="width: 400px" data-options="multiline:false  , disabled: true">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_editovrtimedtform_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Date</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editovrtimedtform-dt_ovrtimedt_dt" class="easyui-datebox" style="width: 400px" mapping="ovrtimedt_dt" data-options="editable:false , required: true, invalidMessage: 'Date required'">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_editovrtimedtform_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Type/Day</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editovrtimedtform-cbo_ovrtime_id_type" class="easyui-combo" style="width: 400px" mapping="ovrtime_id_type" display="ovrtime_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: '-- PILIH --'" >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;">*Wajib memilih tipe atau mengisi keterangan</div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_editovrtimedtform_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Descr</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_editovrtimedtform-txt_ovrtimedt_descr" class="easyui-textbox" mapping="ovrtimedt_descr"  maxlength="255"  style="width: 400px" data-options="multiline:false , multiline: true ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+	</form>
+
+
+	<div class="form_row" style="margin-top: 30px">
+		<div class="form_label_col"></div>
+		<div class="form_input_col" style="border: 0px solid black">
+			<div style="margin-bottom: 10px">
+				<input id="pnl_editovrtimedtform-autoadd" type="checkbox"><label for="pnl_editovrtimedtform-autoadd">Otomatis tambah baru setelah berhasil disimpan</label>
+			</div>
+			<div>
+				<a id="pnl_editovrtimedtform-btn_save" class="easyui-linkbutton c1 fgta-button-save" style="width: 100px">Simpan</a>
+			</div>
+		</div>
+	</div>	
+
+
+	<?php
+	$custombuttonbar = __DIR__.'/ovrtime-ovrtimedtform-custombuttonbar.phtml';
+	if (is_file($custombuttonbar)) {
+		include $custombuttonbar;
+	} else { ?>
+	<div id="pnl_editovrtimedtform-buttonbar" style="margin-top: 30px; margin-left:-5px; margin-right: -5px; background-color: #cccccc; height: 40px; display: flex; justify-content: space-between; padding: 5px 2px 2px 2px ">
+		<div id="pnl_editovrtimedtform-buttonbar-left">
+			<a id="pnl_editovrtimedtform-btn_prev" class="easyui-linkbutton c8 fgta-button-detilprev" style="width: 50px">Prev</a>
+			<a id="pnl_editovrtimedtform-btn_next" class="easyui-linkbutton c8 fgta-button-detilnext" style="width: 50px">Next</a>
+		</div>
+
+		<div id="pnl_editovrtimedtform-buttonbar-middle">
+			<a id="pnl_editovrtimedtform-btn_addnew" class="easyui-linkbutton c8 fgta-button-detiladd" style="width: 100px">Tambah Baru</a>
+		</div>
+
+		<div id="pnl_editovrtimedtform-buttonbar-right">
+			<a id="pnl_editovrtimedtform-btn_delete" class="easyui-linkbutton c5" style="width: 100px">Hapus</a>
+		</div>
+	</div>
+	<?php } ?>
+
+
+
+
+</div>	

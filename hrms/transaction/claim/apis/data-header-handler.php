@@ -42,6 +42,16 @@ class claim_headerHandler extends WebAPI  {
 		return $kode;
 	}
 
+	public function DataOpen(array &$record) : void 
+	{
+		$SQL = "SELECT * FROM mst_docapprvlevl WHERE docapprv_id = :docapprv_id ORDER BY docapprvlevl_sortorder DESC LIMIT 1";
+		$stmt = $this->db->prepare($SQL);
+		$stmt->execute(['docapprv_id' => $record['docapprv_id']]);
+		$row = $stmt->fetch(\PDO::FETCH_OBJ);
+
+		$record['docapprvlevl_sortorder'] = $row->docapprvlevl_sortorder;
+	}
+
 }		
 		
 		

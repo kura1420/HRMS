@@ -13,6 +13,11 @@ const btn_delete = $('#pnl_edit-btn_delete')
 const btn_print = $('#pnl_edit-btn_print');
 
 
+const btn_request = $('#pnl_edit-btn_request')
+const btn_unrequest = $('#pnl_edit-btn_unrequest')
+const btn_approve = $('#pnl_edit-btn_approve')
+const btn_decline = $('#pnl_edit-btn_decline')
+const btn_bayar = $('#pnl_edit-btn_bayar')
 
 
 
@@ -24,6 +29,7 @@ const obj = {
 	txt_claim_descr: $('#pnl_edit-txt_claim_descr'),
 	cbo_empl_id: $('#pnl_edit-cbo_empl_id'),
 	txt_claim_total: $('#pnl_edit-txt_claim_total'),
+	cbo_month_id: $('#pnl_edit-cbo_month_id'),
 	cbo_docapprv_id: $('#pnl_edit-cbo_docapprv_id'),
 	txt_claim_rejectnotes: $('#pnl_edit-txt_claim_rejectnotes'),
 	chk_claim_isrequest: $('#pnl_edit-chk_claim_isrequest'),
@@ -32,9 +38,15 @@ const obj = {
 	chk_claim_isapproved: $('#pnl_edit-chk_claim_isapproved'),
 	txt_claim_approveby: $('#pnl_edit-txt_claim_approveby'),
 	txt_claim_approvedate: $('#pnl_edit-txt_claim_approvedate'),
-	chk_claim_isdeclined: $('#pnl_edit-chk_claim_isdeclined'),
+	chk_claim_isapprovalprogress: $('#pnl_edit-chk_claim_isapprovalprogress'),
+	chk_claim_isdecline: $('#pnl_edit-chk_claim_isdecline'),
 	txt_claim_declineby: $('#pnl_edit-txt_claim_declineby'),
-	txt_claim_declinedate: $('#pnl_edit-txt_claim_declinedate')
+	txt_claim_declinedate: $('#pnl_edit-txt_claim_declinedate'),
+	chk_claim_ispayment: $('#pnl_edit-chk_claim_ispayment'),
+	txt_claim_paymentby: $('#pnl_edit-txt_claim_paymentby'),
+	txt_claim_paymentdate: $('#pnl_edit-txt_claim_paymentdate'),
+	txt_claim_executeby: $('#pnl_edit-txt_claim_executeby'),
+	txt_claim_executedate: $('#pnl_edit-txt_claim_executedate')
 }
 
 
@@ -79,7 +91,42 @@ export async function init(opt) {
 	
 	// Generator: Commit Handler not exist
 	// Generator: Approval Handler not exist
-	// Generator: Xtion Handler not exist
+	btn_request.linkbutton({ onClick: () => { 
+		if (typeof hnd.btn_request_click==='function') {
+			hnd.btn_request_click(); 
+		} else {
+			btn_action_click({ action: 'request' }); 
+		}
+	} });
+	btn_unrequest.linkbutton({ onClick: () => { 
+		if (typeof hnd.btn_unrequest_click==='function') {
+			hnd.btn_unrequest_click(); 
+		} else {
+			btn_action_click({ action: 'unrequest' }); 
+		}
+	} });
+	btn_approve.linkbutton({ onClick: () => { 
+		if (typeof hnd.btn_approve_click==='function') {
+			hnd.btn_approve_click(); 
+		} else {
+			btn_action_click({ action: 'approve' }); 
+		}
+	} });
+	btn_decline.linkbutton({ onClick: () => { 
+		if (typeof hnd.btn_decline_click==='function') {
+			hnd.btn_decline_click(); 
+		} else {
+			btn_action_click({ action: 'decline' }); 
+		}
+	} });
+	btn_bayar.linkbutton({ onClick: () => { 
+		if (typeof hnd.btn_bayar_click==='function') {
+			hnd.btn_bayar_click(); 
+		} else {
+			btn_action_click({ action: 'bayar' }); 
+		}
+	} });
+
 	// Generator: Object Handler not exist
 
 	// Generator: Upload Handler not exist
@@ -87,7 +134,7 @@ export async function init(opt) {
 
 	obj.cbo_activity_id.name = 'pnl_edit-cbo_activity_id'		
 	new fgta4slideselect(obj.cbo_activity_id, {
-		title: 'Daftar Employee',
+		title: 'Daftar Activity',
 		returnpage: this_page_id,
 		api: $ui.apis.load_activity_id,
 		fieldValue: 'activity_id',
@@ -145,6 +192,39 @@ export async function init(opt) {
 			if (value!=args.PreviousValue ) {
 				if (typeof hnd.cbo_empl_id_selected === 'function') {
 					hnd.cbo_empl_id_selected(value, display, record, args);
+				}
+			}
+		},
+
+	})				
+				
+	obj.cbo_month_id.name = 'pnl_edit-cbo_month_id'		
+	new fgta4slideselect(obj.cbo_month_id, {
+		title: 'Daftar Bulan',
+		returnpage: this_page_id,
+		api: $ui.apis.load_month_id,
+		fieldValue: 'month_id',
+		fieldDisplay: 'month_name',
+		fields: [
+			{mapping: 'month_id', text: 'ID'},
+			{mapping: 'month_name', text: 'Name'}
+		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_month_id_dataloading === 'function') {
+				hnd.cbo_month_id_dataloading(criteria, options);
+			}						
+		},					
+		OnDataLoaded : (result, options) => {
+			
+			if (typeof hnd.cbo_month_id_dataloaded === 'function') {
+				hnd.cbo_month_id_dataloaded(result, options);
+			}
+		},
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_month_id_selected === 'function') {
+					hnd.cbo_month_id_selected(value, display, record, args);
 				}
 			}
 		},
@@ -310,6 +390,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 			.fill(record)
 			.setValue(obj.cbo_activity_id, record.activity_id, record.activity_name)
 			.setValue(obj.cbo_empl_id, record.empl_id, record.empl_fullname)
+			.setValue(obj.cbo_month_id, record.month_id, record.month_name)
 			.setValue(obj.cbo_docapprv_id, record.docapprv_id, record.docapprv_name)
 			.setViewMode(viewmode)
 			.lock(false)
@@ -371,12 +452,16 @@ export function createnew() {
 		data.claim_total = 0
 		data.claim_isrequest = '0'
 		data.claim_isapproved = '0'
-		data.claim_isdeclined = '0'
+		data.claim_isapprovalprogress = '0'
+		data.claim_isdecline = '0'
+		data.claim_ispayment = '0'
 
 		data.activity_id = '0'
 		data.activity_name = '-- PILIH --'
 		data.empl_id = '0'
 		data.empl_fullname = '-- PILIH --'
+		data.month_id = '0'
+		data.month_name = '-- PILIH --'
 		data.docapprv_id = '0'
 		data.docapprv_name = '-- PILIH --'
 
@@ -661,3 +746,72 @@ function btn_print_click() {
 
 
 
+
+async function btn_action_click(args) {
+	if (form.isDataChanged() || !form.isInViewMode()) {
+		$ui.ShowMessage('[WARNING]Simpan dulu perubahan data, dan tidak sedang dalam mode edit.');
+		return;
+	}
+
+
+	var docname = 'Claim'
+	var txt_version = obj.txt_claim_version;
+	var chk_iscommit = obj.chk_claim_iscommit;
+	
+	
+	var id = form.getCurrentId();
+
+	Object.assign(args, {
+		id: id,
+		act_url: null,
+		act_msg_quest: null,
+		act_msg_result: null,
+		act_do: null,
+		use_otp: false,
+		otp_message: `Berikut adalah code yang harus anda masukkan untuk melakukan ${args.action} ${docname} dengan no id ${id}`,
+	});
+
+	switch (args.action) {
+			
+		
+	
+		default:
+			if (typeof hnd.do_other_action == 'function') {
+				hnd.do_other_action(args);
+			}
+	}
+
+	
+	if (args.cancel) { return } // batalkan xtion
+
+	try {
+		$ui.mask('wait..');
+		var { doAction } = await import('../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4xtion.mjs');
+		await doAction(args, (err, result) => {
+			if (err) {
+				$ui.ShowMessage('[WARNING]' + err.message);	
+			} else {
+				if (result.dataresponse!=undefined) { updaterecordstatus(result.dataresponse) };
+				args.act_do(result);
+
+				if (result.dataresponse!=undefined) {
+					updatebuttonstate(result.dataresponse);
+					updategridstate(result.dataresponse);
+				}
+
+				if (typeof hnd.action_done == 'function') {
+					hnd.action_done(result, args);
+				}
+
+				if (args.act_msg_result!=='') $ui.ShowMessage('[INFO]' + args.act_msg_result);	
+			}
+		});
+	} catch (err) {
+		console.error(err);
+		$ui.ShowMessage('[ERROR]' + err.message);
+	} finally {
+		$ui.unmask();
+	}
+}	
+	
+	

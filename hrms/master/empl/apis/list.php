@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 26/05/2024
+ * tanggal 06/06/2024
  */
 $API = new class extends emplBase {
 
@@ -93,7 +93,7 @@ $API = new class extends emplBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'empl_id' => 'A.`empl_id`', 'empl_fullname' => 'A.`empl_fullname`', 'empl_isexit' => 'A.`empl_isexit`', 'empl_dtjoin' => 'A.`empl_dtjoin`',
-				'division_id' => 'A.`division_id`', 'user_id' => 'A.`user_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+				'dept_id' => 'A.`dept_id`', 'division_id' => 'A.`division_id`', 'user_id' => 'A.`user_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_empl A";
@@ -183,6 +183,7 @@ $API = new class extends emplBase {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
+					'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 					'division_name' => \FGTA4\utils\SqlUtility::Lookup($record['division_id'], $this->db, 'mst_division', 'division_id', 'division_name'),
 					'user_name' => \FGTA4\utils\SqlUtility::Lookup($record['user_id'], $this->db, 'fgt_user', 'user_id', 'user_name'),
 					 
@@ -191,6 +192,7 @@ $API = new class extends emplBase {
 
 
 				// lookup data id yang refer ke table lain
+				$this->addFields('dept_name', 'dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');
 				$this->addFields('division_name', 'division_id', $record, 'mst_division', 'division_name', 'division_id');
 				$this->addFields('user_name', 'user_id', $record, 'fgt_user', 'user_name', 'user_id');
 					 

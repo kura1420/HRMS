@@ -22,6 +22,7 @@ const obj = {
 	txt_docapprvlevl_id: $('#pnl_editdocapprvlevlform-txt_docapprvlevl_id'),
 	txt_docapprvlevl_sortorder: $('#pnl_editdocapprvlevlform-txt_docapprvlevl_sortorder'),
 	chk_docapprvlevl_isdisabled: $('#pnl_editdocapprvlevlform-chk_docapprvlevl_isdisabled'),
+	chk_docapprvlevl_isequaldept: $('#pnl_editdocapprvlevlform-chk_docapprvlevl_isequaldept'),
 	cbo_empl_id: $('#pnl_editdocapprvlevlform-cbo_empl_id'),
 	txt_docapprv_id: $('#pnl_editdocapprvlevlform-txt_docapprv_id')
 }

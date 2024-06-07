@@ -33,7 +33,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 01/06/2024
+ * tanggal 07/06/2024
  */
 $API = new class extends docapprvBase {
 	
@@ -67,8 +67,8 @@ $API = new class extends docapprvBase {
 			
 			// data yang akan di update dari table
 			$sqlUpdateField  = [
-					'docapprvlevl_id', 'docapprvlevl_sortorder', 'docapprvlevl_isdisabled', 'empl_id',
-					'docapprv_id'
+					'docapprvlevl_id', 'docapprvlevl_sortorder', 'docapprvlevl_isdisabled', 'docapprvlevl_isequaldept',
+					'empl_id', 'docapprv_id'
 			];
 			if (method_exists(get_class($hnd), 'setUpdateField')) {
 				// setUpdateField(&$sqlUpdateField, $data, $options)
@@ -189,8 +189,8 @@ $API = new class extends docapprvBase {
 				}
 
 				$sqlFieldList = [
-					'docapprvlevl_id' => 'A.`docapprvlevl_id`', 'docapprvlevl_sortorder' => 'A.`docapprvlevl_sortorder`', 'docapprvlevl_isdisabled' => 'A.`docapprvlevl_isdisabled`', 'empl_id' => 'A.`empl_id`',
-					'docapprv_id' => 'A.`docapprv_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+					'docapprvlevl_id' => 'A.`docapprvlevl_id`', 'docapprvlevl_sortorder' => 'A.`docapprvlevl_sortorder`', 'docapprvlevl_isdisabled' => 'A.`docapprvlevl_isdisabled`', 'docapprvlevl_isequaldept' => 'A.`docapprvlevl_isequaldept`',
+					'empl_id' => 'A.`empl_id`', 'docapprv_id' => 'A.`docapprv_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_docapprvlevl A";

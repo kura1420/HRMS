@@ -22,6 +22,7 @@ const obj = {
 	txt_empl_fullname: $('#pnl_edit-txt_empl_fullname'),
 	chk_empl_isexit: $('#pnl_edit-chk_empl_isexit'),
 	dt_empl_dtjoin: $('#pnl_edit-dt_empl_dtjoin'),
+	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
 	cbo_division_id: $('#pnl_edit-cbo_division_id'),
 	cbo_user_id: $('#pnl_edit-cbo_user_id')
 }
@@ -72,6 +73,42 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
+	obj.cbo_dept_id.name = 'pnl_edit-cbo_dept_id'		
+	new fgta4slideselect(obj.cbo_dept_id, {
+		title: 'Daftar Departement',
+		returnpage: this_page_id,
+		api: $ui.apis.load_dept_id,
+		fieldValue: 'dept_id',
+		fieldDisplay: 'dept_name',
+		fields: [
+			{mapping: 'dept_id', text: 'ID'},
+			{mapping: 'dept_name', text: 'Name'},
+			{mapping: 'dept_code', text: 'Code'}
+		],
+		OnDataLoading: (criteria, options) => {
+			criteria.dept_isdisabled = 0;
+			if (typeof hnd.cbo_dept_id_dataloading === 'function') {
+				hnd.cbo_dept_id_dataloading(criteria, options);
+			}						
+		},					
+		OnDataLoaded : (result, options) => {
+			
+			if (typeof hnd.cbo_dept_id_dataloaded === 'function') {
+				hnd.cbo_dept_id_dataloaded(result, options);
+			}
+		},
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+			form.setValue(obj.cbo_division_id, '0', '-- PILIH --')
+		
+				if (typeof hnd.cbo_dept_id_selected === 'function') {
+					hnd.cbo_dept_id_selected(value, display, record, args);
+				}
+			}
+		},
+
+	})				
+				
 	obj.cbo_division_id.name = 'pnl_edit-cbo_division_id'		
 	new fgta4slideselect(obj.cbo_division_id, {
 		title: 'Daftar Divisi',
@@ -85,7 +122,8 @@ export async function init(opt) {
 			{mapping: 'division_code', text: 'Code'}
 		],
 		OnDataLoading: (criteria, options) => {
-			
+			criteria.division_isdisabled = 0;
+			criteria.dept_id = form.getValue(obj.cbo_dept_id);
 			if (typeof hnd.cbo_division_id_dataloading === 'function') {
 				hnd.cbo_division_id_dataloading(criteria, options);
 			}						
@@ -264,6 +302,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
+			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
 			.setValue(obj.cbo_division_id, record.division_id, record.division_name)
 			.setValue(obj.cbo_user_id, record.user_id, record.user_name)
 			.setViewMode(viewmode)
@@ -326,6 +365,8 @@ export function createnew() {
 		data.empl_isexit = '0'
 		data.empl_dtjoin = global.now()
 
+		data.dept_id = '0'
+		data.dept_name = '-- PILIH --'
 		data.division_id = '0'
 		data.division_name = '-- PILIH --'
 		data.user_id = '0'

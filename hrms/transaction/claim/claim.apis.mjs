@@ -12,6 +12,7 @@ kemdian, di program bisa diakses dengan
 
 export const load_activity_id = 'hrms/master/activity/list'
 export const load_empl_id = 'hrms/master/empl/list'
+export const load_month_id = 'global/general/month/list'
 export const load_docapprv_id = 'global/setup/docapprv/list'
 
 

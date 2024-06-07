@@ -45,8 +45,15 @@ $API = new class extends WebAPI {
 				$obj->{$fieldname} = $value;
 			}
 
+			$obj->_modifyby = $userdata->username;
+			$obj->_modifydate = date("Y-m-d H:i:s");
+
 			switch ($data->event) {
 				case 'request':
+					$obj->claim_isrequest = 1;
+					$obj->claim_requestby = $userdata->username;
+					$obj->claim_requestdate = date("Y-m-d H:i:s");
+
 					$this->requestAction($obj, $key, $userdata);
 
 					$options->message = 'Request Success';
@@ -57,6 +64,10 @@ $API = new class extends WebAPI {
 					break;
 
 				case 'unrequest':
+					$obj->claim_isrequest = 0;
+					$obj->claim_requestby = NULL;
+					$obj->claim_requestdate = NULL;
+
 					$this->unrequestAction($obj, $key, $userdata);
 
 					$options->message = 'UnRequest Success';
@@ -67,6 +78,13 @@ $API = new class extends WebAPI {
 					break;
 
 				case 'approve':
+					$obj->claim_isapproved = 1;
+					$obj->claim_approveby = $userdata->username;
+					$obj->claim_approvedate = date("Y-m-d H:i:s");
+
+					$obj->claim_executeby = $userdata->username;
+					$obj->claim_executedate = date("Y-m-d H:i:s");
+
 					$this->approveAction($obj, $key, $userdata);
 
 					$options->message = 'Approval Success';
@@ -77,9 +95,33 @@ $API = new class extends WebAPI {
 					break;
 
 				case 'decline':
+					$obj->claim_isdecline = 1;
+					$obj->claim_declineby = $userdata->username;
+					$obj->claim_declinedate = date("Y-m-d H:i:s");
+
+					$obj->claim_executeby = $userdata->username;
+					$obj->claim_executedate = date("Y-m-d H:i:s");
+
 					$this->declineAction($obj, $key, $userdata);
 
 					$options->message = 'Decline Success';
+
+					$return = $this->getData($obj, $options, $userdata);
+					
+					return $return;
+					break;
+
+				case 'payment':
+					$obj->claim_ispayment = 1;
+					$obj->claim_paymentby = $userdata->username;
+					$obj->claim_paymentdate = date("Y-m-d H:i:s");
+
+					$obj->claim_executeby = $userdata->username;
+					$obj->claim_executedate = date("Y-m-d H:i:s");
+
+					$this->paymentAction($obj, $key, $userdata);
+
+					$options->message = 'Info Payment Success';
 
 					$return = $this->getData($obj, $options, $userdata);
 					
@@ -109,10 +151,12 @@ $API = new class extends WebAPI {
 		$result = new \stdClass;
 
 		$sqlFieldList = [
-			'claim_id' => 'A.`claim_id`', 'claim_code' => 'A.`claim_code`', 'empl_id' => 'A.`empl_id`', 'docapprv_id' => 'A.`docapprv_id`',
+			'claim_id' => 'A.`claim_id`', 'claim_code' => 'A.`claim_code`', 'activity_id' => 'A.`activity_id`', 'claim_descr' => 'A.`claim_descr`',
+			'empl_id' => 'A.`empl_id`', 'claim_total' => 'A.`claim_total`', 'month_id' => 'A.`month_id`', 'docapprv_id' => 'A.`docapprv_id`',
 			'claim_rejectnotes' => 'A.`claim_rejectnotes`', 'claim_isrequest' => 'A.`claim_isrequest`', 'claim_requestby' => 'A.`claim_requestby`', 'claim_requestdate' => 'A.`claim_requestdate`',
-			'claim_isapproved' => 'A.`claim_isapproved`', 'claim_approveby' => 'A.`claim_approveby`', 'claim_approvedate' => 'A.`claim_approvedate`', 'claim_isdeclined' => 'A.`claim_isdeclined`',
-			'claim_declineby' => 'A.`claim_declineby`', 'claim_declinedate' => 'A.`claim_declinedate`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+			'claim_isapproved' => 'A.`claim_isapproved`', 'claim_approveby' => 'A.`claim_approveby`', 'claim_approvedate' => 'A.`claim_approvedate`', 'claim_isapprovalprogress' => 'A.`claim_isapprovalprogress`',
+			'claim_isdecline' => 'A.`claim_isdecline`', 'claim_declineby' => 'A.`claim_declineby`', 'claim_declinedate' => 'A.`claim_declinedate`', 'claim_ispayment' => 'A.`claim_ispayment`',
+			'claim_paymentby' => 'A.`claim_paymentby`', 'claim_paymentdate' => 'A.`claim_paymentdate`', 'claim_executeby' => 'A.`claim_executeby`', 'claim_executedate' => 'A.`claim_executedate`',
 			'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 		];
 		$sqlFromTable = "trn_claim A";
@@ -138,6 +182,11 @@ $API = new class extends WebAPI {
 			$record[$key] = $value;
 		}
 
+		$SQL = "SELECT * FROM mst_docapprvlevl WHERE docapprv_id = :docapprv_id ORDER BY docapprvlevl_sortorder DESC LIMIT 1";
+		$stmt = $this->db->prepare($SQL);
+		$stmt->execute(['docapprv_id' => $obj->docapprv_id]);
+		$docapprv = $stmt->fetch(\PDO::FETCH_OBJ);
+
 		$dataresponse = array_merge($record, [
 			//  untuk lookup atau modify response ditaruh disini
 			'empl_fullname' => \FGTA4\utils\SqlUtility::Lookup($record['empl_id'], $this->db, 'mst_empl', 'empl_id', 'empl_fullname'),
@@ -145,6 +194,8 @@ $API = new class extends WebAPI {
 			'claim_requestby' => \FGTA4\utils\SqlUtility::Lookup($record['claim_requestby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 			'claim_approveby' => \FGTA4\utils\SqlUtility::Lookup($record['claim_approveby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 			'claim_declineby' => \FGTA4\utils\SqlUtility::Lookup($record['claim_declineby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+
+			'docapprvlevl_sortorder' => $docapprv->docapprvlevl_sortorder,
 
 			'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 			'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
@@ -160,13 +211,6 @@ $API = new class extends WebAPI {
 	protected function requestAction($obj, $key, $userdata): void
 	{
 		try {
-			$obj->claim_isrequest = 1;
-			$obj->claim_requestby = $userdata->username;
-			$obj->claim_requestdate = date("Y-m-d H:i:s");
-			
-			$obj->_modifyby = $userdata->username;
-			$obj->_modifydate = date("Y-m-d H:i:s");
-
 			$sql = "
 				update $this->tablename
 				set
@@ -182,7 +226,7 @@ $API = new class extends WebAPI {
 				and
 				claim_isapproved = 0
 				and
-				claim_isdeclined = 0
+				claim_isdecline = 0
 			";
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
@@ -191,6 +235,7 @@ $API = new class extends WebAPI {
 				':claim_requestdate' => $obj->claim_requestdate,
 				':_modifyby' => $obj->_modifyby,
 				':_modifydate' => $obj->_modifydate,
+
 				':claim_id' => $obj->{$this->primarykey}
 			]);
 
@@ -208,13 +253,6 @@ $API = new class extends WebAPI {
 	protected function unrequestAction($obj, $key, $userdata): void
 	{
 		try {
-			$obj->claim_isrequest = 0;
-			$obj->claim_requestby = $userdata->username;
-			$obj->claim_requestdate = date("Y-m-d H:i:s");
-			
-			$obj->_modifyby = $userdata->username;
-			$obj->_modifydate = date("Y-m-d H:i:s");
-
 			$sql = "
 				update $this->tablename
 				set
@@ -230,7 +268,7 @@ $API = new class extends WebAPI {
 				and
 				claim_isapproved = 0
 				and
-				claim_isdeclined = 0
+				claim_isdecline = 0
 			";
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
@@ -239,6 +277,7 @@ $API = new class extends WebAPI {
 				':claim_requestdate' => $obj->claim_requestdate,
 				':_modifyby' => $obj->_modifyby,
 				':_modifydate' => $obj->_modifydate,
+
 				':claim_id' => $obj->{$this->primarykey}
 			]);
 
@@ -258,14 +297,11 @@ $API = new class extends WebAPI {
 		try {
 			$userAuth = new \FGTA4\utils\UserAuth();
 
-			$userAuth->docAuth($userdata, $obj);
+			$emplRequest = $userAuth->employeeProfile($obj->empl_id);
 
-			$obj->claim_isapproved = 1;
-			$obj->claim_approveby = $userdata->username;
-			$obj->claim_approvedate = date("Y-m-d H:i:s");
-			
-			$obj->_modifyby = $userdata->username;
-			$obj->_modifydate = date("Y-m-d H:i:s");
+			$docAuth = $userAuth->docAuth($userdata, $emplRequest, $obj);
+
+			$obj->claim_isapprovalprogress = $docAuth->docapprvlevl_sortorder;
 
 			$sql = "
 				update $this->tablename
@@ -273,6 +309,9 @@ $API = new class extends WebAPI {
 				claim_isapproved = :claim_isapproved,
 				claim_approveby = :claim_approveby,
 				claim_approvedate = :claim_approvedate,
+				claim_isapprovalprogress = :claim_isapprovalprogress,
+				claim_executeby = :claim_executeby,
+				claim_executedate = :claim_executedate,
 				_modifyby = :_modifyby,
 				_modifydate = :_modifydate
 				where
@@ -280,17 +319,19 @@ $API = new class extends WebAPI {
 				and
 				claim_isrequest = 1
 				and
-				claim_isapproved = 0
-				and
-				claim_isdeclined = 0
+				claim_isdecline = 0
 			";
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
 				':claim_isapproved' => $obj->claim_isapproved,
 				':claim_approveby' => $obj->claim_approveby,
 				':claim_approvedate' => $obj->claim_approvedate,
+				':claim_isapprovalprogress' => $obj->claim_isapprovalprogress,
+				':claim_executeby' => $obj->claim_executeby,
+				':claim_executedate' => $obj->claim_executedate,
 				':_modifyby' => $obj->_modifyby,
 				':_modifydate' => $obj->_modifydate,
+
 				':claim_id' => $obj->{$this->primarykey}
 			]);
 
@@ -310,22 +351,19 @@ $API = new class extends WebAPI {
 		try {
 			$userAuth = new \FGTA4\utils\UserAuth();
 
-			$userAuth->docAuth($userdata, $obj);
+			$emplRequest = $userAuth->employeeProfile($obj->empl_id);
 
-			$obj->claim_isdeclined = 1;
-			$obj->claim_declineby = $userdata->username;
-			$obj->claim_declinedate = date("Y-m-d H:i:s");
-			
-			$obj->_modifyby = $userdata->username;
-			$obj->_modifydate = date("Y-m-d H:i:s");
+			$userAuth->docAuth($userdata, $emplRequest, $obj);
 
 			$sql = "
 				update $this->tablename
 				set
 				claim_rejectnotes = :claim_rejectnotes,
-				claim_isdeclined = :claim_isdeclined,
+				claim_isdecline = :claim_isdecline,
 				claim_declineby = :claim_declineby,
 				claim_declinedate = :claim_declinedate,
+				claim_executeby = :claim_executeby,
+				claim_executedate = :claim_executedate,
 				_modifyby = :_modifyby,
 				_modifydate = :_modifydate
 				where
@@ -333,16 +371,69 @@ $API = new class extends WebAPI {
 				and
 				claim_isrequest = 1
 				and
-				claim_isdeclined = 0
+				claim_isdecline = 0
 			";
 			$stmt = $this->db->prepare($sql);
 			$stmt->execute([
 				':claim_rejectnotes' => $obj->claim_rejectnotes,
-				':claim_isdeclined' => $obj->claim_isdeclined,
+				':claim_isdecline' => $obj->claim_isdecline,
 				':claim_declineby' => $obj->claim_declineby,
 				':claim_declinedate' => $obj->claim_declinedate,
+				':claim_executeby' => $obj->claim_executeby,
+				':claim_executedate' => $obj->claim_executedate,
 				':_modifyby' => $obj->_modifyby,
 				':_modifydate' => $obj->_modifydate,
+
+				':claim_id' => $obj->{$this->primarykey}
+			]);
+
+			$rowsAffected = $stmt->rowCount();
+			if ($rowsAffected==0) {
+				throw new \Exception("Data not found");
+			}
+
+			\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $this->tablename, $obj->{$this->primarykey}, $this->action, $userdata->username, (object)[]);
+		} catch (\Exception $ex) {
+			throw $ex;
+		}
+	}
+
+	protected function paymentAction($obj, $key, $userdata): void
+	{
+		try {
+			$sql = "
+				update $this->tablename
+				set
+				claim_ispayment = :claim_ispayment,
+				claim_paymentby = :claim_paymentby,
+				claim_paymentdate = :claim_paymentdate,
+				claim_executeby = :claim_executeby,
+				claim_executedate = :claim_executedate,
+				_modifyby = :_modifyby,
+				_modifydate = :_modifydate
+				where
+				claim_id = :claim_id
+				and
+				claim_isrequest = 1
+				and
+				claim_isapproved = 1
+				and
+				claim_isdecline = 0
+				and
+				claim_ispayment = 0
+			";
+			$stmt = $this->db->prepare($sql);
+			$stmt->execute([
+				// update
+				':claim_ispayment' => $obj->claim_ispayment,
+				':claim_paymentby' => $obj->claim_paymentby,
+				':claim_paymentdate' => $obj->claim_paymentdate,
+				':claim_executeby' => $obj->claim_executeby,
+				':claim_executedate' => $obj->claim_executedate,
+				':_modifyby' => $obj->_modifyby,
+				':_modifydate' => $obj->_modifydate,
+
+				// where
 				':claim_id' => $obj->{$this->primarykey}
 			]);
 

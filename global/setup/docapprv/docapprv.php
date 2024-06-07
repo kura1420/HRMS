@@ -16,7 +16,7 @@ if (is_file(__DIR__ .'/docapprv.php-handler.php')) {
  * digenerate dengan FGTA4 generator versi 2 
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net (Tangerang, 26 Maret 2021)
  * awal dibuat tanggal 28/05/2024
- * terakhir di generate tanggal 01/06/2024
+ * terakhir di generate tanggal 07/06/2024
  */
 $MODULE = new class extends WebModule {
 

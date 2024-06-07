@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 04/06/2024
+ * tanggal 07/06/2024
  */
 $API = new class extends claimBase {
 
@@ -93,10 +93,11 @@ $API = new class extends claimBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'claim_id' => 'A.`claim_id`', 'claim_code' => 'A.`claim_code`', 'activity_id' => 'A.`activity_id`', 'claim_descr' => 'A.`claim_descr`',
-				'empl_id' => 'A.`empl_id`', 'claim_total' => 'A.`claim_total`', 'docapprv_id' => 'A.`docapprv_id`', 'claim_rejectnotes' => 'A.`claim_rejectnotes`',
-				'claim_isrequest' => 'A.`claim_isrequest`', 'claim_requestby' => 'A.`claim_requestby`', 'claim_requestdate' => 'A.`claim_requestdate`', 'claim_isapproved' => 'A.`claim_isapproved`',
-				'claim_approveby' => 'A.`claim_approveby`', 'claim_approvedate' => 'A.`claim_approvedate`', 'claim_isdeclined' => 'A.`claim_isdeclined`', 'claim_declineby' => 'A.`claim_declineby`',
-				'claim_declinedate' => 'A.`claim_declinedate`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+				'empl_id' => 'A.`empl_id`', 'claim_total' => 'A.`claim_total`', 'month_id' => 'A.`month_id`', 'docapprv_id' => 'A.`docapprv_id`',
+				'claim_rejectnotes' => 'A.`claim_rejectnotes`', 'claim_isrequest' => 'A.`claim_isrequest`', 'claim_requestby' => 'A.`claim_requestby`', 'claim_requestdate' => 'A.`claim_requestdate`',
+				'claim_isapproved' => 'A.`claim_isapproved`', 'claim_approveby' => 'A.`claim_approveby`', 'claim_approvedate' => 'A.`claim_approvedate`', 'claim_isapprovalprogress' => 'A.`claim_isapprovalprogress`',
+				'claim_isdecline' => 'A.`claim_isdecline`', 'claim_declineby' => 'A.`claim_declineby`', 'claim_declinedate' => 'A.`claim_declinedate`', 'claim_ispayment' => 'A.`claim_ispayment`',
+				'claim_paymentby' => 'A.`claim_paymentby`', 'claim_paymentdate' => 'A.`claim_paymentdate`', 'claim_executeby' => 'A.`claim_executeby`', 'claim_executedate' => 'A.`claim_executedate`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "trn_claim A";
@@ -188,10 +189,13 @@ $API = new class extends claimBase {
 				 	//'tambahan' => 'dta'
 					'activity_name' => \FGTA4\utils\SqlUtility::Lookup($record['activity_id'], $this->db, 'mst_activity', 'activity_id', 'activity_name'),
 					'empl_fullname' => \FGTA4\utils\SqlUtility::Lookup($record['empl_id'], $this->db, 'mst_empl', 'empl_id', 'empl_fullname'),
+					'month_name' => \FGTA4\utils\SqlUtility::Lookup($record['month_id'], $this->db, 'mst_month', 'month_id', 'month_name'),
 					'docapprv_name' => \FGTA4\utils\SqlUtility::Lookup($record['docapprv_id'], $this->db, 'mst_docapprv', 'docapprv_id', 'docapprv_name'),
 					'claim_requestby' => \FGTA4\utils\SqlUtility::Lookup($record['claim_requestby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'claim_approveby' => \FGTA4\utils\SqlUtility::Lookup($record['claim_approveby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'claim_declineby' => \FGTA4\utils\SqlUtility::Lookup($record['claim_declineby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+					'claim_paymentby' => \FGTA4\utils\SqlUtility::Lookup($record['claim_paymentby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+					'claim_executeby' => \FGTA4\utils\SqlUtility::Lookup($record['claim_executeby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					 
 				]);
 				*/
@@ -200,10 +204,13 @@ $API = new class extends claimBase {
 				// lookup data id yang refer ke table lain
 				$this->addFields('activity_name', 'activity_id', $record, 'mst_activity', 'activity_name', 'activity_id');
 				$this->addFields('empl_fullname', 'empl_id', $record, 'mst_empl', 'empl_fullname', 'empl_id');
+				$this->addFields('month_name', 'month_id', $record, 'mst_month', 'month_name', 'month_id');
 				$this->addFields('docapprv_name', 'docapprv_id', $record, 'mst_docapprv', 'docapprv_name', 'docapprv_id');
 				$this->addFields('claim_requestby', 'claim_requestby', $record, $GLOBALS['MAIN_USERTABLE'], 'user_fullname', 'user_id');
 				$this->addFields('claim_approveby', 'claim_approveby', $record, $GLOBALS['MAIN_USERTABLE'], 'user_fullname', 'user_id');
 				$this->addFields('claim_declineby', 'claim_declineby', $record, $GLOBALS['MAIN_USERTABLE'], 'user_fullname', 'user_id');
+				$this->addFields('claim_paymentby', 'claim_paymentby', $record, $GLOBALS['MAIN_USERTABLE'], 'user_fullname', 'user_id');
+				$this->addFields('claim_executeby', 'claim_executeby', $record, $GLOBALS['MAIN_USERTABLE'], 'user_fullname', 'user_id');
 					 
 
 

@@ -10,7 +10,7 @@
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">ID</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_id" class="easyui-textbox" mapping="claim_id"  maxlength="36" style="width: 400px" data-options="multiline: false  ">
+				<input id="pnl_edit-txt_claim_id" class="easyui-textbox" mapping="claim_id"  maxlength="36" style="width: 400px" data-options="prompt: 'ID'  ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -18,7 +18,7 @@
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Code</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_code" class="easyui-textbox" mapping="claim_code" uppercase="true" maxlength="50" style="width: 400px" data-options="multiline: false  ">
+				<input id="pnl_edit-txt_claim_code" class="easyui-textbox" mapping="claim_code" uppercase="true" maxlength="50" style="width: 400px" data-options="prompt: 'Code' , disabled: true ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -26,7 +26,7 @@
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Activity</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_activity_id" class="easyui-combo" style="width: 400px" mapping="activity_id" display="activity_name" data-options="editable:false, valueField:'id', textField:'text' , required: false, invalidMessage: 'Activity required', prompt: '-- PILIH --'"  >
+				<input id="pnl_edit-cbo_activity_id" class="easyui-combo" style="width: 400px" mapping="activity_id" display="activity_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Activity required', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_activity_id']" >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -34,7 +34,7 @@
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Descr</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_descr" class="easyui-textbox" mapping="claim_descr"  maxlength="255" style="width: 400px" data-options="multiline: false  ">
+				<input id="pnl_edit-txt_claim_descr" class="easyui-textbox" mapping="claim_descr"  maxlength="255" style="width: 400px; height: 180px;" data-options="prompt: 'Descr' , multiline: true ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -42,7 +42,7 @@
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Employee</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_empl_id" class="easyui-combo" style="width: 400px" mapping="empl_id" display="empl_fullname" data-options="editable:false, valueField:'id', textField:'text' , required: false, invalidMessage: 'Employee required', prompt: '-- PILIH --'"  >
+				<input id="pnl_edit-cbo_empl_id" class="easyui-combo" style="width: 400px" mapping="empl_id" display="empl_fullname" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Employee required', prompt: '-- PILIH --', disabled: true"   validType="requiredcombo['pnl_edit-cbo_empl_id']" >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -50,15 +50,26 @@
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Total</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_total" class="easyui-numberbox" mapping="claim_total" style="width: 400px; text-align:right" data-options="precision: 0, decimalSeparator:'.', groupSeparator:','  ">
+				<input id="pnl_edit-txt_claim_total" class="easyui-numberbox" mapping="claim_total" style="width: 400px; text-align:right" data-options="precision: 0, decimalSeparator:'.', groupSeparator:','  , disabled: true">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
 		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Bulan</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_month_id" class="easyui-combo" style="width: 400px" mapping="month_id" display="month_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Bulan required', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_month_id']" >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<?=$this->SectionBegin('Doc. Status', true, true, '')?>
+		<div class="fgta_section_collapsible " style="display: none">
+					
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Doc. Approval</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_docapprv_id" class="easyui-combo" style="width: 400px" mapping="docapprv_id" display="docapprv_name" data-options="editable:false, valueField:'id', textField:'text' , required: false, invalidMessage: 'Doc. Approval', prompt: '-- PILIH --'"  >
+				<input id="pnl_edit-cbo_docapprv_id" class="easyui-combo" style="width: 400px" mapping="docapprv_id" display="docapprv_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Doc. Approval', prompt: '-- PILIH --', disabled: true"   validType="requiredcombo['pnl_edit-cbo_docapprv_id']" >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -66,7 +77,7 @@
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Reject Notes</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_rejectnotes" class="easyui-textbox" mapping="claim_rejectnotes"  maxlength="255" style="width: 400px" data-options="multiline: false , disabled: true ">
+				<input id="pnl_edit-txt_claim_rejectnotes" class="easyui-textbox" mapping="claim_rejectnotes"  maxlength="255" style="width: 400px; height: 180px;" data-options="prompt: 'Reject Notes' , disabled: true, multiline: true ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -81,7 +92,7 @@
 		<div class="form_row pnl_edit_row" style="display: none">
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">RequestBy</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_requestby" class="easyui-textbox" mapping="claim_requestby"  maxlength="14" style="width: 400px" data-options="multiline: false , disabled: true ">
+				<input id="pnl_edit-txt_claim_requestby" class="easyui-textbox" mapping="claim_requestby"  maxlength="14" style="width: 400px" data-options="prompt: 'RequestBy' , disabled: true ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -89,7 +100,7 @@
 		<div class="form_row pnl_edit_row" style="display: none">
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">RequestDate</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_requestdate" class="easyui-textbox" mapping="claim_requestdate"   style="width: 400px" data-options="multiline: false , disabled: true ">
+				<input id="pnl_edit-txt_claim_requestdate" class="easyui-textbox" mapping="claim_requestdate"   style="width: 400px" data-options="prompt: 'RequestDate' , disabled: true ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -104,7 +115,7 @@
 		<div class="form_row pnl_edit_row" style="display: none">
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Approve By</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_approveby" class="easyui-textbox" mapping="claim_approveby"  maxlength="14" style="width: 400px" data-options="multiline: false , disabled: true ">
+				<input id="pnl_edit-txt_claim_approveby" class="easyui-textbox" mapping="claim_approveby"  maxlength="14" style="width: 400px" data-options="prompt: 'Approve By' , disabled: true ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -112,22 +123,29 @@
 		<div class="form_row pnl_edit_row" style="display: none">
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Approve Date</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_approvedate" class="easyui-textbox" mapping="claim_approvedate"   style="width: 400px" data-options="multiline: false , disabled: true ">
+				<input id="pnl_edit-txt_claim_approvedate" class="easyui-textbox" mapping="claim_approvedate"   style="width: 400px" data-options="prompt: 'Approve Date' , disabled: true ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" style="display: none">
+			<div class="form_label_col"></div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-chk_claim_isapprovalprogress" class="easyui-checkbox c1" mapping="claim_isapprovalprogress" data-options="label: 'Progress', labelPosition: 'after', checked: false , disabled: true">
 			</div>
 		</div>
 
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"></div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-chk_claim_isdeclined" class="easyui-checkbox c1" mapping="claim_isdeclined" data-options="label: 'Declined', labelPosition: 'after', checked: false , disabled: true">
+				<input id="pnl_edit-chk_claim_isdecline" class="easyui-checkbox c1" mapping="claim_isdecline" data-options="label: 'Decline', labelPosition: 'after', checked: false , disabled: true">
 			</div>
 		</div>
 
 		<div class="form_row pnl_edit_row" style="display: none">
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Decline By</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_declineby" class="easyui-textbox" mapping="claim_declineby"  maxlength="14" style="width: 400px" data-options="multiline: false , disabled: true ">
+				<input id="pnl_edit-txt_claim_declineby" class="easyui-textbox" mapping="claim_declineby"  maxlength="14" style="width: 400px" data-options="prompt: 'Decline By' , disabled: true ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -135,11 +153,53 @@
 		<div class="form_row pnl_edit_row" style="display: none">
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Decline Date</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_claim_declinedate" class="easyui-textbox" mapping="claim_declinedate"   style="width: 400px" data-options="multiline: false , disabled: true ">
+				<input id="pnl_edit-txt_claim_declinedate" class="easyui-textbox" mapping="claim_declinedate"   style="width: 400px" data-options="prompt: 'Decline Date' , disabled: true ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
+		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"></div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-chk_claim_ispayment" class="easyui-checkbox c1" mapping="claim_ispayment" data-options="label: 'Payment', labelPosition: 'after', checked: false , disabled: true">
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" style="display: none">
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Payment By</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_claim_paymentby" class="easyui-textbox" mapping="claim_paymentby"  maxlength="14" style="width: 400px" data-options="prompt: 'Payment By' , disabled: true ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" style="display: none">
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Payment Date</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_claim_paymentdate" class="easyui-textbox" mapping="claim_paymentdate"   style="width: 400px" data-options="prompt: 'Payment Date' , disabled: true ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Execute By</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_claim_executeby" class="easyui-textbox" mapping="claim_executeby"  maxlength="14" style="width: 400px" data-options="prompt: 'Execute By' , disabled: true ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" style="display: none">
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Execute Date</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_claim_executedate" class="easyui-textbox" mapping="claim_executedate"   style="width: 400px" data-options="prompt: 'Execute Date' , disabled: true ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		</div>			
+		<?=$this->SectionEnd('')?>
+					
 	</form>
 
 
@@ -178,7 +238,12 @@
 			<a id="pnl_edit-btn_print" href="javascript:void(0)" class="easyui-linkbutton c8" style="margin-left:10px; margin-bottom: 10px;" data-options="iconCls:'icon-print'">print</a>
 			
 			
-			
+							<a id="pnl_edit-btn_request" href="javascript:void(0)" class="easyui-linkbutton c8" style="width: 80px; margin-left:10px; margin-bottom: 10px;" data-options="plain:true">Request</a>
+				<a id="pnl_edit-btn_unrequest" href="javascript:void(0)" class="easyui-linkbutton c8" style="width: 80px; margin-left:10px; margin-bottom: 10px;" data-options="plain:true">Unrequest</a>
+				<a id="pnl_edit-btn_approve" href="javascript:void(0)" class="easyui-linkbutton c8" style="width: 80px; margin-left:10px; margin-bottom: 10px;" data-options="plain:true">Approve</a>
+				<a id="pnl_edit-btn_decline" href="javascript:void(0)" class="easyui-linkbutton c8" style="width: 80px; margin-left:10px; margin-bottom: 10px;" data-options="plain:true">Decline</a>
+				<a id="pnl_edit-btn_bayar" href="javascript:void(0)" class="easyui-linkbutton c8" style="width: 80px; margin-left:10px; margin-bottom: 10px;" data-options="plain:true">Pembayar</a>
+
 			<?php } ?>
 		</div>
 		<div>

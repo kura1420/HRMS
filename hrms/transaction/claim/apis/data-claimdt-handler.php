@@ -12,6 +12,19 @@ class claim_claimdtHandler extends WebAPI  {
 	{
 		$userdata = $this->auth->session_get_user(); 
 
+		$SQL = "SELECT * FROM trn_claim WHERE claim_id = :claim_id";
+		$stmt = $this->db->prepare($SQL);
+		$stmt->execute([
+			':claim_id' => $obj->claim_id
+		]);
+		$claim = $stmt->fetch(\PDO::FETCH_OBJ);
+
+		$detailDate = date('n', strtotime($obj->claimdt_dt));
+
+		if ($detailDate != $claim->month_id) {
+			throw new \Exception('Bulan dan tanggal claim tidak sesuai');
+		}
+
 		$SQL = "SELECT 
 			SUM(claimdt_val) AS total 
 		FROM trn_claimdt 
