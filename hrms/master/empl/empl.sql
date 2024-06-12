@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `mst_empl` (
 	`empl_isexit` tinyint(1) NOT NULL DEFAULT 0, 
 	`empl_dtjoin` date  , 
 	`dept_id` varchar(36) NOT NULL , 
-	`division_id` varchar(36) NOT NULL , 
+	`division_id` varchar(36)  , 
 	`user_id` varchar(14) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
@@ -26,7 +26,7 @@ ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_fullname` varchar(255) NO
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_isexit` tinyint(1) NOT NULL DEFAULT 0 AFTER `empl_fullname`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_dtjoin` date   AFTER `empl_isexit`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(36) NOT NULL  AFTER `empl_dtjoin`;
-ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `division_id` varchar(36) NOT NULL  AFTER `dept_id`;
+ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `division_id` varchar(36)   AFTER `dept_id`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `user_id` varchar(14) NOT NULL  AFTER `division_id`;
 
 
@@ -34,7 +34,7 @@ ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_fullname` varchar(255) NOT
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_isexit` tinyint(1) NOT NULL DEFAULT 0  AFTER `empl_fullname`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_dtjoin` date    AFTER `empl_isexit`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `dept_id` varchar(36) NOT NULL   AFTER `empl_dtjoin`;
-ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `division_id` varchar(36) NOT NULL   AFTER `dept_id`;
+ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `division_id` varchar(36)    AFTER `dept_id`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `user_id` varchar(14) NOT NULL   AFTER `division_id`;
 
 

@@ -279,6 +279,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
+		if (result.record.division_id==null) { result.record.division_id='--NULL--'; result.record.division_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -367,8 +368,8 @@ export function createnew() {
 
 		data.dept_id = '0'
 		data.dept_name = '-- PILIH --'
-		data.division_id = '0'
-		data.division_name = '-- PILIH --'
+		data.division_id = '--NULL--'
+		data.division_name = 'NONE'
 		data.user_id = '0'
 		data.user_name = '-- PILIH --'
 
@@ -519,7 +520,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = [];
+	// options.skipmappingresponse = ['division_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -568,6 +569,7 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
+	form.setValue(obj.cbo_division_id, result.dataresponse.division_name!=='--NULL--' ? result.dataresponse.division_id : '--NULL--', result.dataresponse.division_name!=='--NULL--'?result.dataresponse.division_name:'NONE')
 
 	*/
 

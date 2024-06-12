@@ -41,8 +41,8 @@ module.exports = {
 					}),
 				},
 				division_id: {
-					text:'Divisi', type: dbtype.varchar(36), null:false, suppresslist: false,
-					options:{required:false,invalidMessage:'Divisi required', prompt:'-- PILIH --'},
+					text:'Divisi', type: dbtype.varchar(36), null:true, suppresslist: false,
+					options:{ prompt:'-- PILIH --' },
 					comp: comp.Combo({
 						table: 'mst_division',
 						field_value: 'division_id', field_display: 'division_name',

@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 06/06/2024
+ * tanggal 12/06/2024
  */
 $API = new class extends emplBase {
 	
