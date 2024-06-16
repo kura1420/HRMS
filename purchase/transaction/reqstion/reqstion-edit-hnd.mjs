@@ -6,7 +6,6 @@ const btn_request = $('#pnl_edit-btn_request')
 const btn_unrequest = $('#pnl_edit-btn_unrequest')
 const btn_approve = $('#pnl_edit-btn_approve')
 const btn_decline = $('#pnl_edit-btn_decline')
-const btn_bayar = $('#pnl_edit-btn_bayar')
 
 export function init(ed) {
 	editor = ed;
@@ -16,11 +15,13 @@ export function init(ed) {
 
 
 	empl_profile = opt.variancedata.employee_profile;
+	
 }
 
+	
 export function form_newdata(data, options)
 {
-	data.claim_code = '[AUTO]';
+	data.reqstion_code = '[AUTO]';
 
 	data.docapprv_id = 'PURREQ';
 	data.docapprv_name = 'Purchase Requisition';
@@ -29,18 +30,18 @@ export function form_newdata(data, options)
 		data.empl_id = empl_profile.empl_id;
 		data.empl_fullname = empl_profile.empl_fullname;
 	}
-}	
+}		
 
 export function form_dataopened(result, options)
 {
 	const { record } = result;
 
-	setButtonRADP(record);
+	setButtonRAD(record);
 }
 
 export function form_datasaving(data, options)
 {
-	setButtonRADP(data);
+	setButtonRAD(data);
 }
 
 export function btn_request_click() 
@@ -76,21 +77,12 @@ export async function btn_decline_click()
 		if (r) {
 			let params = {
 				event: 'decline',
-				claim_rejectnotes: r,
+				reqstion_rejectnotes: r,
 			};
 		
 			posting(params);
 		}
 	});
-}
-
-export function btn_bayar_click()
-{
-	let params = {
-		event: 'payment',
-	};
-
-	posting(params);
 }
 
 async function posting(params) 
@@ -99,7 +91,7 @@ async function posting(params)
 		let args = {
 			data: {
 				empl_id: form.getValue(obj.cbo_empl_id),
-				claim_id: form.getValue(obj.txt_claim_id),
+				reqstion_id: form.getValue(obj.txt_reqstion_id),
 				docapprv_id: form.getValue(obj.cbo_docapprv_id),
 			},
 			options: {
@@ -109,8 +101,8 @@ async function posting(params)
 	
 		args.data.event = params.event;
 
-		if (params.claim_rejectnotes) {
-			args.data.claim_rejectnotes = params.claim_rejectnotes;
+		if (params.reqstion_rejectnotes) {
+			args.data.reqstion_rejectnotes = params.reqstion_rejectnotes;
 		}
 
 		$ui.mask('executing api...');
@@ -123,13 +115,13 @@ async function posting(params)
 
 		$ui.ShowMessage(`[INFO] ${message}`);
 
-		form.setValue(obj.chk_claim_isrequest, dataresponse.claim_isrequest);
-		form.setValue(obj.chk_claim_isapproved, dataresponse.claim_isapproved);
-		form.setValue(obj.chk_claim_isdecline, dataresponse.claim_isdecline);
-		form.setValue(obj.txt_claim_rejectnotes, dataresponse.claim_rejectnotes);
-		form.setValue(obj.chk_claim_ispayment, dataresponse.claim_ispayment);
+		form.setValue(obj.chk_reqstion_isrequest, dataresponse.reqstion_isrequest);
+		form.setValue(obj.chk_reqstion_isapproved, dataresponse.reqstion_isapproved);
+		form.setValue(obj.chk_reqstion_isdecline, dataresponse.reqstion_isdecline);
+		form.setValue(obj.txt_reqstion_rejectnotes, dataresponse.reqstion_rejectnotes);
+		form.setValue(obj.chk_reqstion_ispayment, dataresponse.reqstion_ispayment);
 
-		setButtonRADP(dataresponse);
+		setButtonRAD(dataresponse);
 
 		var data = {}
 		Object.assign(data, form.getData(), result.dataresponse);
@@ -145,18 +137,15 @@ async function posting(params)
 	}
 }
 
-function setButtonRADP(record)
+function setButtonRAD(record)
 {
-	if (opt.variancedata.is_request_myself == true && opt.variancedata.can_approve == false && opt.variancedata.can_payment == false) {
+	if (opt.variancedata.is_request_myself == true && opt.variancedata.can_approve == false) {
 		permissionRequest(record);
 	}
 
-	if (opt.variancedata.is_request_myself == true && opt.variancedata.can_approve == true && opt.variancedata.can_payment == false) {
+	console.log(opt.variancedata.is_request_myself, opt.variancedata.can_approve);
+	if (opt.variancedata.is_request_myself == true && opt.variancedata.can_approve == true) {
 		permissionRequestApprove(record)
-	}
-
-	if (opt.variancedata.is_request_myself == true && opt.variancedata.can_approve == true && opt.variancedata.can_payment == true) {
-		permissionApprovePayment(record)
 	}
 }
 
@@ -166,33 +155,29 @@ function permissionRequest(record)
 	let btn_unrequest_on = false;
 	let btn_approve_on = false;
 	let btn_decline_on = false;
-	let btn_bayar_on = false;
 
-	if (record.claim_isrequest == 0) {
+	if (record.reqstion_isrequest == 0) {
 		btn_unrequest_on = false;
 		btn_approve_on = false;
 		btn_decline_on = false;
-		btn_bayar_on = false;
 
 		$('#pnl_edit-btn_edit').linkbutton('enable');
 	}
 
-	if (record.claim_isrequest == 1) {
+	if (record.reqstion_isrequest == 1) {
 		btn_request_on = false;
 		btn_unrequest_on = true;
 		btn_approve_on = false;
 		btn_decline_on = false;
-		btn_bayar_on = false;
 
 		$('#pnl_edit-btn_edit').linkbutton('disable');
 	}
 
-	if (record.claim_isapproved == 1 || record.claim_isdecline == 1 || record.claim_ispayment == 1) {
+	if (record.reqstion_isapproved == 1 || record.reqstion_isdecline == 1) {
 		btn_request_on = false;
 		btn_unrequest_on = false;
 		btn_approve_on = false;
 		btn_decline_on = false;
-		btn_bayar_on = false;
 
 		$('#pnl_edit-btn_edit').linkbutton('disable');
 	}
@@ -201,7 +186,6 @@ function permissionRequest(record)
 	btn_unrequest.linkbutton(btn_unrequest_on ? 'enable' : 'disable');
 	btn_approve.linkbutton(btn_approve_on ? 'enable' : 'disable');
 	btn_decline.linkbutton(btn_decline_on ? 'enable' : 'disable');
-	btn_bayar.linkbutton(btn_bayar_on ? 'enable' : 'disable');
 }
 
 function permissionRequestApprove(record)
@@ -210,18 +194,16 @@ function permissionRequestApprove(record)
 	let btn_unrequest_on = false;
 	let btn_approve_on = false;
 	let btn_decline_on = false;
-	let btn_bayar_on = false;
 
-	if (record.claim_isrequest == 0) {
+	if (record.reqstion_isrequest == 0) {
 		btn_unrequest_on = false;
 		btn_approve_on = false;
 		btn_decline_on = false;
-		btn_bayar_on = false;
 
 		$('#pnl_edit-btn_edit').linkbutton('enable');
 	}
 
-	if (record.claim_isrequest == 1) {
+	if (record.reqstion_isrequest == 1) {
 		if (record.empl_id == empl_profile.empl_id) {
 			btn_unrequest_on = true;
 		} else {
@@ -232,104 +214,19 @@ function permissionRequestApprove(record)
 		
 		btn_approve_on = true;
 		btn_decline_on = true;
-		btn_bayar_on = false;
 
 		$('#pnl_edit-btn_edit').linkbutton('disable');
 	}
 
-	if (record.claim_isapproved == 1 || record.claim_isdecline == 1 || record.claim_ispayment == 1) {
-		btn_request_on = false;
-		btn_unrequest_on = false;
-		btn_approve_on = false;
-		btn_decline_on = false;
-		btn_bayar_on = false;
+	if (record.reqstion_isapproved == 1 || record.reqstion_isdecline == 1) {
 
-		$('#pnl_edit-btn_edit').linkbutton('disable');
-	}
-
-	if (record.claim_ispayment == 1) {
-		btn_request_on = false;
-		btn_unrequest_on = false;
-		btn_approve_on = false;
-		btn_decline_on = false;
-		btn_bayar_on = false;
-
-		$('#pnl_edit-btn_edit').linkbutton('disable');
-	}
-
-	btn_request.linkbutton(btn_request_on ? 'enable' : 'disable');
-	btn_unrequest.linkbutton(btn_unrequest_on ? 'enable' : 'disable');
-	btn_approve.linkbutton(btn_approve_on ? 'enable' : 'disable');
-	btn_decline.linkbutton(btn_decline_on ? 'enable' : 'disable');
-	btn_bayar.linkbutton(btn_bayar_on ? 'enable' : 'disable');
-}
-
-function permissionApprovePayment(record)
-{
-	let btn_request_on = true;
-	let btn_unrequest_on = false;
-	let btn_approve_on = false;
-	let btn_decline_on = false;
-	let btn_bayar_on = false;
-
-	if (record.claim_isrequest == 0) {
-		btn_unrequest_on = false;
-		btn_approve_on = false;
-		btn_decline_on = false;
-		btn_bayar_on = false;
-
-		$('#pnl_edit-btn_edit').linkbutton('enable');
-	}
-
-	if (record.claim_isrequest == 1) {
-		if (record.empl_id == empl_profile.empl_id) {
-			btn_unrequest_on = true;
-		} else {
-			btn_unrequest_on = false;
-		}
-
-		btn_request_on = false;
-		
-		btn_approve_on = true;
-		btn_decline_on = true;
-		btn_bayar_on = false;
-
-		$('#pnl_edit-btn_edit').linkbutton('disable');
-	}
-
-	if (record.claim_isapproved == 1 && record.claim_ispayment == 0) {
-		btn_request_on = false;
-		btn_unrequest_on = false;
-
-		if (record.docapprvlevl_sortorder == record.claim_isapprovalprogress) {
+		if (record.docapprvlevl_sortorder == record.reqstion_isapprovalprogress) {
 			btn_approve_on = false;
 			btn_decline_on = false;
-			btn_bayar_on = true;
 		} else {
 			btn_approve_on = true;
 			btn_decline_on = true;
-			btn_bayar_on = false;	
 		}
-
-		$('#pnl_edit-btn_edit').linkbutton('disable');
-	}
-
-	if (record.claim_isdecline == 1) {
-		btn_request_on = false;
-		btn_unrequest_on = false;
-		btn_approve_on = false;
-		btn_decline_on = false;
-		btn_bayar_on = false;
-
-		$('#pnl_edit-btn_edit').linkbutton('disable');
-	}
-
-	if (record.claim_ispayment == 1) {
-		btn_request_on = false;
-		btn_unrequest_on = false;
-		btn_approve_on = false;
-		btn_decline_on = false;
-		btn_bayar_on = false;
 
 		$('#pnl_edit-btn_edit').linkbutton('disable');
 	}
@@ -338,5 +235,4 @@ function permissionApprovePayment(record)
 	btn_unrequest.linkbutton(btn_unrequest_on ? 'enable' : 'disable');
 	btn_approve.linkbutton(btn_approve_on ? 'enable' : 'disable');
 	btn_decline.linkbutton(btn_decline_on ? 'enable' : 'disable');
-	btn_bayar.linkbutton(btn_bayar_on ? 'enable' : 'disable');
 }

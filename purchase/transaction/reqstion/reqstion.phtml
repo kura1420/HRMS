@@ -1,0 +1,14 @@
+<?php require_once dirname(__FILE__).'/reqstion-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/reqstion-edit.phtml' ?>
+<?php require_once dirname(__FILE__).'/reqstion-reqstionitmgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/reqstion-reqstionitmform.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/reqstion-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>
