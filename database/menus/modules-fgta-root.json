@@ -47,6 +47,23 @@
 					]
 				}
 			]
+		},
+		{
+			"title" : "Purchase",
+			"modules": [
+				{
+					"title": "Master",
+					"modules": [
+						"purchase/master/typereq"
+					]
+				},
+				{
+					"title": "Request",
+					"modules": [
+						"purchase/transaction/reqstion"
+					]
+				}
+			]
 		}
 	]
 }
